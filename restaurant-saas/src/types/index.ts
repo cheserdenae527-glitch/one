@@ -46,6 +46,17 @@ export interface ContentTemplate {
   isActive: boolean;
 }
 
+export interface Template {
+  id: string;
+  name: string;
+  description: string;
+  tone: string[];
+  cuisines: string[];
+  platforms: string[];
+  weight: number;
+  isActive: boolean;
+}
+
 export interface HotContent {
   id: string;
   platform: string;
@@ -71,3 +82,5 @@ export interface ReviewItem {
   sentiment: "positive" | "neutral" | "negative";
   createdAt: string;
 }
+
+
