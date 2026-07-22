@@ -8,6 +8,7 @@ const NAV_ITEMS = [
   { href: "/content", label: "内容创作", icon: "P" },
   { href: "/reviews", label: "评价管理", icon: "S" },
   { href: "/images", label: "图片生成", icon: "I" },
+  { href: "/videos", label: "视频生成", icon: "V" },
   { href: "/settings", label: "设置", icon: "G" },
 ];
 
@@ -49,3 +50,4 @@ export function Sidebar() {
     </aside>
   );
 }
+
