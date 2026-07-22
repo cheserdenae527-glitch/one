@@ -83,6 +83,20 @@ export default function ImagesPage() {
     }
   }
 
+  async function downloadImage(url: string, name: string) {
+    try {
+      const res = await fetch(url);
+      const blob = await res.blob();
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = name + ".jpg";
+      a.click();
+      URL.revokeObjectURL(a.href);
+    } catch {
+      window.open(url, "_blank");
+    }
+  }
+
   async function handleGenerate() {
     setLoading(true);
     try {
@@ -214,12 +228,28 @@ export default function ImagesPage() {
                   <h3 className="text-sm font-semibold">生成结果 ({count}张)</h3>
                   <span className="text-xs text-muted-foreground">{analysisResult?.dish_name || ""}</span>
                 </div>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-2 gap-3">
                   {results.map((img, i) => (
-                    <div key={i} className="rounded-md overflow-hidden bg-white">
+                    <div key={i} className="rounded-md overflow-hidden bg-white border">
                       <img src={img} alt={"" + (i + 1)} className="w-full h-auto" />
+                      <div className="p-1.5 flex gap-1">
+                        <button onClick={() => downloadImage(img, "图片_" + (i + 1))}
+                          className="flex-1 text-xs bg-muted hover:bg-muted/80 py-1 rounded transition-colors">
+                          下载
+                        </button>
+                        <a href={img} target="_blank" rel="noopener noreferrer"
+                          className="flex-1 text-xs bg-muted hover:bg-muted/80 py-1 rounded text-center block transition-colors">
+                          查看
+                        </a>
+                      </div>
                     </div>
                   ))}
+                </div>
+                <div className="flex justify-center mt-2">
+                  <button onClick={() => results.forEach((img, i) => downloadImage(img, "图片_" + (i + 1)))}
+                    className="text-xs text-primary hover:underline">
+                    下载全部 {results.length} 张
+                  </button>
                 </div>
               </>
             ) : !imageDataUrl ? (

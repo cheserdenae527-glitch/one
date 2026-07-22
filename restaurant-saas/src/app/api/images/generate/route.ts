@@ -20,8 +20,7 @@ export async function POST(request: Request) {
       body: JSON.stringify({
         model: MODEL,
         prompt,
-        sequential_image_generation: "auto",
-        sequential_image_generation_options: { max_images: maxImages },
+         n: maxImages,
         response_format: "url",
         size: "2K",
         stream: false,
