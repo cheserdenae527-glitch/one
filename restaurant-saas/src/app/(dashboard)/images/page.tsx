@@ -55,7 +55,7 @@ export default function ImagesPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ imageDataUrl, platform: platform.id }),
       });
-      if (!res.ok) throw new Error("分析失败");
+      if (!res.ok) { const e = await res.text(); try { const j = JSON.parse(e); throw new Error(j.error || "分析失败"); } catch { throw new Error("分析失败"); } }
       const data = await res.json();
       setAnalysisResult(data);
       toast.success("分析完成: " + (data.dish_name || "已识别菜品"));
@@ -243,4 +243,6 @@ export default function ImagesPage() {
     </div>
   );
 }
+
+
 
