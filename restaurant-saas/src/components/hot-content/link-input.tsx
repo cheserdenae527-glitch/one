@@ -28,15 +28,15 @@ export function LinkInput() {
 
   return (
     <div className="pt-3 border-t mt-3">
-      <p className="text-xs font-medium mb-2">\u7C98\u8D34\u53C2\u8003\u94FE\u63A5</p>
+      <p className="text-xs font-medium mb-2">粘贴参考链接</p>
       <Input
         value={url}
         onChange={(e) => setUrl(e.target.value)}
-        placeholder="\u7C98\u8D34\u5927\u4F17\u70B9\u8BC4/\u5C0F\u7EA2\u4E66/\u6296\u97F3\u94FE\u63A5..."
+        placeholder="粘贴大众点评/小红书/抖音链接..."
         className="text-xs mb-2"
       />
       <Button size="sm" className="w-full text-xs" disabled={loading || !url.trim()} onClick={handleAnalyze}>
-        {loading ? "\u5206\u6790\u4E2D..." : "\u5206\u6790\u53C2\u8003"}
+        {loading ? "分析中..." : "分析参考"}
       </Button>
     </div>
   );

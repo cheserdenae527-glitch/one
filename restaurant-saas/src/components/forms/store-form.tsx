@@ -21,11 +21,8 @@ interface StoreFormProps {
   onSubmit: (data: StoreFormData) => void;
 }
 
-const CUISINE_OPTIONS = [
-  "火锅", "川菜", "烧烤", "粴菜", "日料",
-  "西餐", "小吃", "餐饮类", "其他"
-];
-const PRICE_OPTIONS = ["50以下", "50-80", "80-120", "120-200", "200以上"];
+const CUISINES = ["火锅", "川菜", "烧烤", "粤菜", "日料", "西餐", "小吃", "其他"];
+const PRICES = ["50以下", "50-80", "80-120", "120-200", "200以上"];
 
 export function StoreForm({ onSubmit }: StoreFormProps) {
   const [form, setForm] = useState<StoreFormData>({
@@ -39,22 +36,28 @@ export function StoreForm({ onSubmit }: StoreFormProps) {
     setForm((prev) => ({ ...prev, [key]: value }));
   }
 
-  function handleNext() {
-    if (!form.name || !form.cuisineType || !form.priceRange) {
-      toast.error("请填写店名、菜系和价位");
+  function goToNext() {
+    if (!form.name || !form.cuisineType) {
+      toast.error("请填写店名和菜系");
       return;
     }
     setStep(2);
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  function handleFinish(e: React.FormEvent) {
     e.preventDefault();
+    if (!form.priceRange) {
+      toast.error("请选择客单价");
+      return;
+    }
     onSubmit(form);
   }
 
+  const FIELD_STYLE = "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm";
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
-      {step === 1 && (
+    <form onSubmit={handleFinish} className="space-y-5">
+      {step === 1 ? (
         <>
           <div className="space-y-3">
             <div>
@@ -71,34 +74,22 @@ export function StoreForm({ onSubmit }: StoreFormProps) {
             </div>
             <div>
               <label className="text-sm font-medium mb-1 block">菜系 *</label>
-              <select
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-                value={form.cuisineType}
-                onChange={(e) => update("cuisineType", e.target.value)}
-              >
+              <select className={FIELD_STYLE} value={form.cuisineType} onChange={(e) => update("cuisineType", e.target.value)}>
                 <option value="">请选择菜系</option>
-                {CUISINE_OPTIONS.map((c) => <option key={c} value={c}>{c}</option>)}
+                {CUISINES.map((c) => <option key={c} value={c}>{c}</option>)}
               </select>
             </div>
           </div>
-          <Button type="button" onClick={handleNext} className="w-full">
-            下一步
-          </Button>
+          <Button type="button" onClick={goToNext} className="w-full">下一步</Button>
         </>
-      )}
-
-      {step === 2 && (
+      ) : (
         <>
           <div className="space-y-3">
             <div>
               <label className="text-sm font-medium mb-1 block">客单价 *</label>
-              <select
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-                value={form.priceRange}
-                onChange={(e) => update("priceRange", e.target.value)}
-              >
+              <select className={FIELD_STYLE} value={form.priceRange} onChange={(e) => update("priceRange", e.target.value)}>
                 <option value="">请选择客单价</option>
-                {PRICE_OPTIONS.map((p) => <option key={p} value={p}>{p}元</option>)}
+                {PRICES.map((p) => <option key={p} value={p}>{p}元</option>)}
               </select>
             </div>
             <div>
@@ -113,16 +104,11 @@ export function StoreForm({ onSubmit }: StoreFormProps) {
             </div>
           </div>
           <div className="flex gap-3">
-            <Button type="button" variant="outline" onClick={() => setStep(1)} className="flex-1">
-              上一步
-            </Button>
-            <Button type="submit" className="flex-1">
-              完成
-            </Button>
+            <Button type="button" variant="outline" onClick={() => setStep(1)} className="flex-1">上一步</Button>
+            <Button type="submit" className="flex-1">完成</Button>
           </div>
         </>
       )}
     </form>
   );
 }
-

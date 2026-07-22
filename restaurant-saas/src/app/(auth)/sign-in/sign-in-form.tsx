@@ -2,11 +2,12 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { createClient } from "@/lib/supabase";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import Link from "next/link";
+
+const isDemoMode = !process.env.NEXT_PUBLIC_SUPABASE_URL?.startsWith("http");
 
 export function SignInForm() {
   const [email, setEmail] = useState("");
@@ -17,7 +18,17 @@ export function SignInForm() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
+
+    if (isDemoMode) {
+      await new Promise((r) => setTimeout(r, 500));
+      toast.success("Demo 模式：登录成功");
+      router.push("/onboarding");
+      router.refresh();
+      return;
+    }
+
     try {
+      const { createClient } = await import("@/lib/supabase");
       const supabase = createClient();
       const { error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) throw error;
@@ -56,6 +67,11 @@ export function SignInForm() {
           注册
         </Link>
       </p>
+      {isDemoMode && (
+        <p className="text-xs text-center text-muted-foreground bg-muted/50 p-2 rounded">
+          Demo 模式：Supabase 未配置，点击登录直接进入应用
+        </p>
+      )}
     </form>
   );
 }

@@ -7,11 +7,11 @@ export async function extractTemplateFromContent(content: {
 }) {
   // TODO: Call OpenAI with extraction prompt
   return {
-    angle: "\u6A2A\u8BC4\u5BF9\u6BD4",
-    format: "\u5408\u96C6\u4F53",
-    structure: ["\u94A9\u5B50", "\u9010\u5E97\u5BF9\u6BD4", "\u603B\u7ED3"],
-    hook: "\u95EE\u9898\u5F0F",
-    tone: ["\u4E13\u4E1A\u8BC4\u6D4B"],
+    angle: "横评对比",
+    format: "合集体",
+    structure: ["钩子", "逐店对比", "总结"],
+    hook: "问题式",
+    tone: ["专业评测"],
     cuisines: [content.cuisineType],
     platforms: [content.platform],
   };
