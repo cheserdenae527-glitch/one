@@ -34,17 +34,34 @@ export default function ImagesPage() {
   const [analysisResult, setAnalysisResult] = useState<any>(null);
   const [analyzing, setAnalyzing] = useState(false);
 
-  function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
     const reader = new FileReader();
     reader.onload = (ev) => {
-      setImageDataUrl(ev.target?.result as string);
-      setAnalysisResult(null);
-      setResults([]);
+      const dataUrl = ev.target?.result as string;
+      const img = new Image();
+      img.onload = () => {
+        const maxDim = 2048;
+        let w = img.width, h = img.height;
+        if (w > maxDim || h > maxDim) {
+          const ratio = Math.min(maxDim / w, maxDim / h);
+          w = Math.round(w * ratio);
+          h = Math.round(h * ratio);
+        }
+        const cvs = document.createElement("canvas");
+        cvs.width = w; cvs.height = h;
+        const ctx = cvs.getContext("2d");
+        if (ctx) ctx.drawImage(img, 0, 0, w, h);
+        setImageDataUrl(cvs.toDataURL("image/jpeg", 0.85));
+        setAnalysisResult(null);
+        setResults([]);
+      };
+      img.src = dataUrl;
     };
     reader.readAsDataURL(file);
   }
+
 
   async function handleAnalyze() {
     if (!imageDataUrl) return;
