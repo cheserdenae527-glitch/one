@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AgentMessage } from "./agent-message";
 import { AgentInput } from "./agent-input";
@@ -17,16 +17,49 @@ interface Message {
 export function AgentPanel() {
   const [messages, setMessages] = useState<Message[]>([
     {
-      id: "welcome",
+      id: "loading",
       role: "agent",
-      content: "早上好！检测到最近'\''夏日夜宵'\''话题在升温，适合你店里的品类。要不要试试生成一条相关内容？",
-      actions: [
-        { label: "生成内容", action: "generate" },
-        { label: "换一个", action: "refresh" },
-      ],
+      content: "正在分析你的店铺数据...",
     },
   ]);
+  const [loading, setLoading] = useState(true);
   const [inputValue, setInputValue] = useState("");
+
+  // 每日首次加载时从 pipeline 获取建议
+  useEffect(() => {
+    const today = new Date().toISOString().split("T")[0];
+    fetch("/api/agent/suggestion")
+      .then(res => res.json())
+      .then(data => {
+        if (data.suggestion) {
+          const s = data.suggestion.suggestion;
+          setMessages([{
+            id: "daily",
+            role: "agent",
+            content: `${s.description}`,
+            actions: [{ label: s.actionLabel, action: s.actionType }],
+          }]);
+        } else {
+          // Pipeline returned empty — use fallback
+          setMessages([{
+            id: "fallback",
+            role: "agent",
+            content: "今天还没有内容计划，要不要生成一篇试试？",
+            actions: [{ label: "生成内容", action: "generate" }],
+          }]);
+        }
+      })
+      .catch(() => {
+        // API unavailable — keep default message
+        setMessages([{
+          id: "offline",
+          role: "agent",
+          content: "运营助手已就绪，有什么需要帮忙的吗？",
+          actions: [{ label: "写文案", action: "generate" }],
+        }]);
+      })
+      .finally(() => setLoading(false));
+  }, []);
 
   const handleSend = () => {
     if (!inputValue.trim()) return;
