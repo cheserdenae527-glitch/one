@@ -125,3 +125,70 @@ export const userLinks = pgTable("user_links", {
   analyzedData: jsonb("analyzed_data"),
   createdAt: timestamp("created_at").defaultNow(),
 });
+
+export const agentDailySuggestions = pgTable("agent_daily_suggestions", {
+  merchantId: uuid("merchant_id").notNull(),
+  date: text("date").notNull(),
+  suggestion: jsonb("suggestion").notNull(),
+  weightSnapshot: jsonb("weight_snapshot"),
+  pipelineTrace: jsonb("pipeline_trace"),
+  generatedAt: timestamp("generated_at").defaultNow(),
+});
+
+export const weightConfigVersions = pgTable("weight_config_versions", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  weights: jsonb("weights").notNull(),
+  reason: text("reason"),
+  appliedAt: timestamp("applied_at").defaultNow(),
+  rollbackTo: uuid("rollback_to"),
+});
+
+export const weightAdjustmentLog = pgTable("weight_adjustment_log", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  merchantId: uuid("merchant_id"),
+  dimension: text("dimension").notNull(),
+  adjustment: decimal("adjustment").notNull(),
+  basis: text("basis"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const agentPipelineLog = pgTable("agent_pipeline_log", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  merchantId: uuid("merchant_id").notNull(),
+  step2Duration: integer("step_2_duration_ms"),
+  step25Result: text("step_25_result"),
+  step3Duration: integer("step_3_duration_ms"),
+  llmTokens: integer("llm_tokens"),
+  success: boolean("success").notNull(),
+  errorMessage: text("error_message"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const weightScoreLog = pgTable("weight_score_log", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  merchantId: uuid("merchant_id").notNull(),
+  candidateIndex: integer("candidate_index").notNull(),
+  rawScores: jsonb("raw_scores").notNull(),
+  normalizedScores: jsonb("normalized_scores").notNull(),
+  weightedScores: jsonb("weighted_scores").notNull(),
+  finalScore: decimal("final_score").notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const templatePendingReview = pgTable("template_pending_review", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  analysisInput: jsonb("analysis_input"),
+  analysisResult: jsonb("analysis_result").notNull(),
+  status: text("status").default("pending"),
+  reviewNote: text("review_note"),
+  reviewedBy: text("reviewed_by"),
+  reviewedAt: timestamp("reviewed_at"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const merchantFeedback = pgTable("merchant_feedback", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  merchantId: uuid("merchant_id").notNull(),
+  suppressedType: text("suppressed_type").notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+});
