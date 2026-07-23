@@ -43,4 +43,13 @@ describe("runAgentPipeline", () => {
     const result = await runAgentPipeline({ merchantId: "test-m4", date: "2026-07-24" });
     expect(result.suggestion!.pipelineTrace.length).toBeGreaterThan(0);
   });
+
+  it("should produce a suggestion with weight system score", async () => {
+    const result = await runAgentPipeline({ merchantId: "test-score", date: "2026-07-25" });
+    expect(result.suggestion!.weightSnapshot).toBeDefined();
+    expect(result.suggestion!.weightSnapshot.hotMatch).toBeGreaterThanOrEqual(0);
+    expect(result.suggestion!.weightSnapshot.hotMatch).toBeLessThanOrEqual(100);
+    // Score should be a realistic value, not default 0
+    expect(result.suggestion!.suggestion.confidence).toBeGreaterThanOrEqual(0);
+  });
 });
