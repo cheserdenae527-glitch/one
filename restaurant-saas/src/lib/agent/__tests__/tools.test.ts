@@ -12,6 +12,8 @@ describe("Tool registry", () => {
     expect(toolNames).toContain("create_weekly_plan");
     expect(toolNames).toContain("check_homogeneity");
     expect(toolNames).toContain("calculate_reference_weight");
+    expect(toolNames).toContain("generate_content");
+    expect(toolNames).toContain("generate_persona");
   });
 
   it("should get tool by name", () => {

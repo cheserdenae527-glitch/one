@@ -21,6 +21,11 @@ export function createToolRegistry() {
         const tool = mod.default;
         tools.set(tool.name, tool);
       }
+      // 注册包装器工具
+      const wrapperTools = [wrapContentGenerator(), wrapPersonaGenerator()];
+      for (const tool of wrapperTools) {
+        tools.set(tool.name, tool);
+      }
     },
     getTool(name: string): AgentTool | null {
       return tools.get(name) ?? null;
