@@ -4,3 +4,4 @@ export const CONTENT_TYPE_PROMPTS: Record<string, string> = {
   review_reply: `你是店长。请回复以下评价，确保自然真实：`,
   promotion: `你是营销专家。请生成一份餐饮促销活动方案：`,
 };
+
