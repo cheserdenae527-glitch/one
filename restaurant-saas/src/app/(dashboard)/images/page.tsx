@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -34,6 +34,16 @@ export default function ImagesPage() {
   const [analyzing, setAnalyzing] = useState(false);
   const [anchorUrls, setAnchorUrls] = useState<string[]>([]);
   const [anchorFiles, setAnchorFiles] = useState<File[]>([]);
+  const [imageHistory, setImageHistory] = useState<any[]>([]);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("image_history");
+    if (saved) setImageHistory(JSON.parse(saved));
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("image_history", JSON.stringify(imageHistory));
+  }, [imageHistory]);
 
   function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -105,8 +115,12 @@ export default function ImagesPage() {
         body: JSON.stringify(body),
       });
       const data = await res.json();
-      setResults(data.images || []);
-      if (data.images?.length) toast.success("已生成 " + data.images.length + " 张图片");
+      const imgs = data.images || [];
+      setResults(imgs);
+      if (imgs.length) {
+        setImageHistory((prev) => [{ type: preset.label + " - " + variant, preview: imgs[0], time: new Date().toLocaleTimeString() }, ...prev.slice(0, 19)]);
+        toast.success("已生成 " + imgs.length + " 张图片");
+      }
     } catch { toast.error("生成失败"); }
     finally { setLoading(false); }
   }
@@ -253,6 +267,23 @@ export default function ImagesPage() {
           ) : null}
         </CardContent></Card>
       </div>
+
+      {imageHistory.length > 0 && (
+        <Card>
+          <CardContent className="p-4">
+            <h3 className="text-sm font-semibold mb-3">生成历史 ({imageHistory.length})</h3>
+            <div className="grid grid-cols-5 gap-2">
+              {imageHistory.map((item: any, i: number) => (
+                <div key={i} className="rounded overflow-hidden border cursor-pointer hover:ring-2 hover:ring-primary transition-all">
+                  <img src={item.preview} alt="" className="w-full h-16 object-cover" />
+                  <div className="p-1 text-[10px] text-muted-foreground truncate">{item.type}</div>
+                  <div className="px-1 pb-1 text-[9px] text-muted-foreground">{item.time}</div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 }

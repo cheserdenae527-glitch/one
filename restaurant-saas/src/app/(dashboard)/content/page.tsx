@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -34,6 +34,15 @@ export default function ContentPage() {
   const [content, setContent] = useState("");
   const [history, setHistory] = useState<{ type: string; preview: string; time: string }[]>([]);
 
+  useEffect(() => {
+    const saved = localStorage.getItem("content_history");
+    if (saved) setHistory(JSON.parse(saved));
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("content_history", JSON.stringify(history));
+  }, [history]);
+
   async function handleGenerate() {
     setLoading(true);
     try {
@@ -49,7 +58,11 @@ export default function ContentPage() {
       });
       if (!res.ok) throw new Error("API 未配置");
       const data = await res.json();
-      setContent(data.content || "");
+      const text = data.content || "";
+      setContent(text);
+      if (text) {
+        setHistory((prev) => [{ type: type.label, preview: text.substring(0, 30) + "...", time: new Date().toLocaleTimeString() }, ...prev.slice(0, 19)]);
+      }
     } catch {
       setContent(DEMO_CONTENTS[type.id] || "");
     } finally {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -32,6 +32,16 @@ export default function VideosPage() {
   const [template, setTemplate] = useState(TEMPLATES[0]);
   const [platform, setPlatform] = useState(PLATFORMS[0]);
   const [referenceUrl, setReferenceUrl] = useState("");
+  const [videoHistory, setVideoHistory] = useState<any[]>([]);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("video_history");
+    if (saved) setVideoHistory(JSON.parse(saved));
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("video_history", JSON.stringify(videoHistory));
+  }, [videoHistory]);
   const [script, setScript] = useState(SCRIPTS[template.id]);
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState<string[]>([]);
@@ -50,8 +60,12 @@ export default function VideosPage() {
         body: JSON.stringify({ template: template.id, platform: platform.id, script, referenceUrl }),
       });
       const data = await res.json();
-      setResults(data.videos || []);
-      if (data.videos?.length) toast.success("视频生成成功");
+      const vids = data.videos || [];
+      setResults(vids);
+      if (vids.length) {
+        setVideoHistory((prev) => [{ type: template.label, preview: vids[0], time: new Date().toLocaleTimeString() }, ...prev.slice(0, 19)]);
+        toast.success("视频生成成功");
+      }
     } catch { toast.error("生成失败"); }
     finally { setLoading(false); }
   }
@@ -133,6 +147,22 @@ export default function VideosPage() {
           )}
         </CardContent></Card>
       </div>
+
+      {videoHistory.length > 0 && (
+        <Card>
+          <CardContent className="p-4">
+            <h3 className="text-sm font-semibold mb-3">生成历史 ({videoHistory.length})</h3>
+            <div className="grid grid-cols-5 gap-2">
+              {videoHistory.map((item: any, i: number) => (
+                <div key={i} className="rounded overflow-hidden border cursor-pointer hover:ring-2 hover:ring-primary transition-all p-2">
+                  <div className="text-xs font-medium truncate">{item.type}</div>
+                  <div className="text-[10px] text-muted-foreground">{item.time}</div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 }
