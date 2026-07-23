@@ -83,3 +83,4 @@ export async function analyzeDishImage(
   const cleaned = text.replace(/```json\s*/g, "").replace(/```\s*/g, "").trim();
   return JSON.parse(cleaned) as AnalysisResult;
 }
+
