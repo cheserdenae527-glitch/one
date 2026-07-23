@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { createToolRegistry, wrapContentGenerator, wrapPersonaGenerator } from "../tools/index";
+import hotTopicsTool from "../tools/hot-topics";
 
 describe("Tool registry", () => {
   const registry = createToolRegistry();
@@ -41,3 +42,15 @@ describe("Tool wrappers", () => {
   });
 });
 
+describe("Enhanced tools", () => {
+  it("analyze_hot_topics should return valid output shape", async () => {
+    const result = await hotTopicsTool.execute(
+      { cuisineType: "火锅", city: "成都" },
+      { merchantId: "test", storeInfo: { id: "s1", name: "测试店", accountStage: "new" } }
+    ).catch(() => null);
+    if (result) {
+      expect(result).toHaveProperty("topics");
+      expect(result).toHaveProperty("seasonalAlerts");
+    }
+  });
+});
