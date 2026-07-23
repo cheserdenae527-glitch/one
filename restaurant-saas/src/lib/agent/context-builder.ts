@@ -1,5 +1,5 @@
 import { getStoreInfo } from "@/lib/supabase-server";
-import type { AgentContext, GeneratedContentRecord, FeedbackPreference } from "./types";
+import type { AgentContext, GeneratedContentRecord, FeedbackPreference, TrendingTopicRecord } from "./types";
 
 export async function buildAgentContext(merchantId: string): Promise<AgentContext> {
   const storeInfo = await getStoreInfo(merchantId);
@@ -7,7 +7,7 @@ export async function buildAgentContext(merchantId: string): Promise<AgentContex
   const recentContent: GeneratedContentRecord[] = [];
   // TODO Phase 2: Load from content_history table
 
-  const trendingTopics = [];
+  const trendingTopics: TrendingTopicRecord[] = [];
   // TODO Phase 5: Load from fetchTrendingContent
 
   const merchantFeedback: FeedbackPreference[] = [];
