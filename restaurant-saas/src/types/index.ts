@@ -2,6 +2,7 @@ export interface StoreInfo {
   id: string;
   name: string;
   address?: string;
+  city?: string;               // 新增：城市，用于抖音同城搜索优化
   phone?: string;
   description?: string;
   cuisineType?: string;
