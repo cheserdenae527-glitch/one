@@ -27,8 +27,8 @@ export async function POST(request: Request) {
     });
     const data = await res.json();
     return NextResponse.json({ images: extractImages(data, n) });
-  } catch {
-    return NextResponse.json({ images: placeholders(preset, variant, text, n) });
+  } catch (e: any) {
+    return NextResponse.json({ images: placeholders(preset, variant, text, n), error: e?.message || "seedream failed" });
   }
 }
 

@@ -1,5 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
+import type { StoreInfo } from "@/types";
 
 export async function createServerSupabase() {
   const cookieStore = await cookies();
@@ -17,4 +18,14 @@ export async function createServerSupabase() {
       },
     }
   );
+}
+
+export async function getStoreInfo(merchantId: string): Promise<StoreInfo | null> {
+  const supabase = await createServerSupabase();
+  const { data } = await supabase
+    .from("stores")
+    .select("*")
+    .eq("id", merchantId)
+    .single();
+  return data as StoreInfo | null;
 }

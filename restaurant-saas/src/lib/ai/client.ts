@@ -29,7 +29,7 @@ export async function callDoubao(prompt: string, maxTokens: number): Promise<str
       model: "doubao-seed-2-0-lite-260428",
       input: [{ role: "user", content: [{ type: "input_text", text: prompt }] }],
       temperature: 0.7,
-      max_output_tokens: maxTokens,
+      max_output_tokens: Math.max(maxTokens, 4096),
     }),
   });
   if (!res.ok) {
@@ -37,6 +37,13 @@ export async function callDoubao(prompt: string, maxTokens: number): Promise<str
     throw new Error("Doubao API failed: " + res.status + " " + err.substring(0, 200));
   }
   const data = await res.json();
-  return data?.output?.choices?.[0]?.message?.content || "";
+  if (data?.output && Array.isArray(data.output)) {
+    const msgItem = data.output.find((item: any) => item.type === "message");
+    if (msgItem?.content && Array.isArray(msgItem.content)) {
+      const textItem = msgItem.content.find((c: any) => c.type === "output_text");
+      if (textItem?.text) return textItem.text;
+    }
+  }
+  return "";
 }
 

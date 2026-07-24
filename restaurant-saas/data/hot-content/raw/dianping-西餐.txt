@@ -1,0 +1,13 @@
+# HTTP Status 404 - There is no Action mapped for namespace \[/search\] and action name \[index\] associated with context path \[\].
+
+* * *
+
+**type** Status report
+
+**message** There is no Action mapped for namespace \[/search\] and action name \[index\] associated with context path \[\].
+
+**description** The requested resource is not available.
+
+* * *
+
+### DP Server 6.4.1

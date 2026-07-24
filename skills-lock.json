@@ -1,0 +1,155 @@
+{
+  "version": 1,
+  "skills": {
+    "ai-agent-security": {
+      "source": "ProgrammerAnthony/Expert-Coding-Harness",
+      "sourceType": "github",
+      "skillPath": "skills/ai-agent-security/SKILL.md",
+      "computedHash": "7481e815af99e9737ad111ba934bb65d341e2acde982476f0d5b92879c5604c2"
+    },
+    "api-design": {
+      "source": "ProgrammerAnthony/Expert-Coding-Harness",
+      "sourceType": "github",
+      "skillPath": "skills/api-design/SKILL.md",
+      "computedHash": "9b81c0deeb3b221148ce8f25b2b84605f6213f50683763c9ec611e7af8ecb027"
+    },
+    "architecture-advisor": {
+      "source": "ProgrammerAnthony/Expert-Coding-Harness",
+      "sourceType": "github",
+      "skillPath": "skills/architecture-advisor/SKILL.md",
+      "computedHash": "8840f06b7fc6fb777d7120e0ff10fb8e7c1563bbe30eb5813a279c8f5020d3c3"
+    },
+    "brainstorming": {
+      "source": "ProgrammerAnthony/Expert-Coding-Harness",
+      "sourceType": "github",
+      "skillPath": "skills/brainstorming/SKILL.md",
+      "computedHash": "3fcb6e85a0863541d0ec53be0362689b75f003aedda1635ff500899be32a9878"
+    },
+    "caveman": {
+      "source": "ProgrammerAnthony/Expert-Coding-Harness",
+      "sourceType": "github",
+      "skillPath": "skills/caveman/SKILL.md",
+      "computedHash": "c36491c5c218c3196bdc09d3aa1d0cc65600d45e1b88c024daaa8a61a7a3ac87"
+    },
+    "code-review-expert": {
+      "source": "ProgrammerAnthony/Expert-Coding-Harness",
+      "sourceType": "github",
+      "skillPath": "skills/code-review-expert/SKILL.md",
+      "computedHash": "9d68fe2d6cd878db1539f3c1cd695f80ae31d91b7e4edcac98b83a264ec44e3e"
+    },
+    "code-security-audit": {
+      "source": "ProgrammerAnthony/Expert-Coding-Harness",
+      "sourceType": "github",
+      "skillPath": "skills/code-security-audit/SKILL.md",
+      "computedHash": "09c1e4a934554ac86023ed006485b0313a7bf5f3029e0b1d6106c90effa4212d"
+    },
+    "debug-expert": {
+      "source": "ProgrammerAnthony/Expert-Coding-Harness",
+      "sourceType": "github",
+      "skillPath": "skills/debug-expert/SKILL.md",
+      "computedHash": "76a99bd162d278cae6dc92d8f369b19948e3ca60460b6142c6a97d7bb457d6e4"
+    },
+    "docs-lookup": {
+      "source": "ProgrammerAnthony/Expert-Coding-Harness",
+      "sourceType": "github",
+      "skillPath": "skills/docs-lookup/SKILL.md",
+      "computedHash": "eca96aeec6b65a1b40bef3d4dfbff9158730cd8d247a6d3b0f7f168b59970e7d"
+    },
+    "frontend-code-review": {
+      "source": "ProgrammerAnthony/Expert-Coding-Harness",
+      "sourceType": "github",
+      "skillPath": "skills/frontend-code-review/SKILL.md",
+      "computedHash": "b3e8804fee3cac1a16d661ea8f28b17b175e7fbcf26b2a419a447eabede4c81e"
+    },
+    "frontend-performance-optimization": {
+      "source": "ProgrammerAnthony/Expert-Coding-Harness",
+      "sourceType": "github",
+      "skillPath": "skills/frontend-performance-optimization/SKILL.md",
+      "computedHash": "2837c92de6948a63e1219cc009e3a2da8391aac6891b07bf71c2d25b3e45809f"
+    },
+    "grill-me": {
+      "source": "ProgrammerAnthony/Expert-Coding-Harness",
+      "sourceType": "github",
+      "skillPath": "skills/grill-me/SKILL.md",
+      "computedHash": "22afe0168f5773a669331b1b02a6639d9af90b2451272835f38371aeadfaf9c6"
+    },
+    "handoff": {
+      "source": "ProgrammerAnthony/Expert-Coding-Harness",
+      "sourceType": "github",
+      "skillPath": "skills/handoff/SKILL.md",
+      "computedHash": "80ce52a3512b3f948c9dd71b1c5679a7325e31ba19846addf7c2ad3beea81c23"
+    },
+    "improve-codebase-architecture": {
+      "source": "ProgrammerAnthony/Expert-Coding-Harness",
+      "sourceType": "github",
+      "skillPath": "skills/improve-codebase-architecture/SKILL.md",
+      "computedHash": "f0b04121a6a873598a0a8acf23e0239d465b414a7874d23e11ceeee75faae711"
+    },
+    "interview-knowledge-track": {
+      "source": "ProgrammerAnthony/Expert-Coding-Harness",
+      "sourceType": "github",
+      "skillPath": "skills/interview-knowledge-track/SKILL.md",
+      "computedHash": "fb51fd7aebb1ec9ff3f67df1dc6d1e824d3c5de4f31ea8715cb106eefbe78870"
+    },
+    "llm-wiki-interview": {
+      "source": "ProgrammerAnthony/Expert-Coding-Harness",
+      "sourceType": "github",
+      "skillPath": "skills/llm-wiki-interview/SKILL.md",
+      "computedHash": "2de3bbe427b172b10262747cac6102695c50d1236548ed2783d4c09d46a91fbb"
+    },
+    "planning-with-files": {
+      "source": "ProgrammerAnthony/Expert-Coding-Harness",
+      "sourceType": "github",
+      "skillPath": "skills/planning-with-files/SKILL.md",
+      "computedHash": "74bdd4ac015388233886edc9a8c2c562886411edc5c6ca99b971ef340035a370"
+    },
+    "prd-engineer": {
+      "source": "ProgrammerAnthony/Expert-Coding-Harness",
+      "sourceType": "github",
+      "skillPath": "skills/prd-engineer/SKILL.md",
+      "computedHash": "a9efabbe738340d419f8e320c2a2c32f337a3c4d552d6d3774ab7bb8f162f695"
+    },
+    "prototype": {
+      "source": "ProgrammerAnthony/Expert-Coding-Harness",
+      "sourceType": "github",
+      "skillPath": "skills/prototype/SKILL.md",
+      "computedHash": "4096357fdff40b5322166b738f4b555842c4aa29c868939466ebed730e480014"
+    },
+    "react-best-practices": {
+      "source": "ProgrammerAnthony/Expert-Coding-Harness",
+      "sourceType": "github",
+      "skillPath": "skills/react-best-practices/SKILL.md",
+      "computedHash": "ff7c738303ab8dfbea266e56391da9748b1c87c09a53f1da1600b0da687629d2"
+    },
+    "skill-smith": {
+      "source": "ProgrammerAnthony/Expert-Coding-Harness",
+      "sourceType": "github",
+      "skillPath": "skills/skill-smith/SKILL.md",
+      "computedHash": "317023320a9b525cb1846e9b7e8b74b4f749c4fb3b53c2fd71026e2a5a5a14db"
+    },
+    "source-reading-analyst": {
+      "source": "ProgrammerAnthony/Expert-Coding-Harness",
+      "sourceType": "github",
+      "skillPath": "skills/source-reading-analyst/SKILL.md",
+      "computedHash": "0eed79a88504ed9dda718a4daf7d363b656e7b996c4852d33d66b81e4e64d558"
+    },
+    "subagent-driven-development": {
+      "source": "ProgrammerAnthony/Expert-Coding-Harness",
+      "sourceType": "github",
+      "skillPath": "skills/subagent-driven-development/SKILL.md",
+      "computedHash": "7cb2000c7d7880123c253eb3aaa42562b1d1da3a458e0ebbaa1caa1fbdbdcc14"
+    },
+    "tdd-master": {
+      "source": "ProgrammerAnthony/Expert-Coding-Harness",
+      "sourceType": "github",
+      "skillPath": "skills/tdd-master/SKILL.md",
+      "computedHash": "0bcc2f8851d1d2941c0954b979050258f58860dd84517294fbb463af5eddf18c"
+    },
+    "writing-plans": {
+      "source": "ProgrammerAnthony/Expert-Coding-Harness",
+      "sourceType": "github",
+      "skillPath": "skills/writing-plans/SKILL.md",
+      "computedHash": "27046e29f8d4a71e571769f1fe5cc868db8c416afc61e1cceaaf4e903dc9782f"
+    }
+  }
+}

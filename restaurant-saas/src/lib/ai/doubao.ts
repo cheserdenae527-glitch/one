@@ -34,10 +34,14 @@ export interface AnalysisResult {
 
 function extractResponseText(response: any): string {
   try {
-    if (response?.output?.choices?.[0]?.message?.content) {
-      return response.output.choices[0].message.content;
+    if (response?.output && Array.isArray(response.output)) {
+      const msgItem = response.output.find((item: any) => item.type === "message");
+      if (msgItem?.content && Array.isArray(msgItem.content)) {
+        const textItem = msgItem.content.find((c: any) => c.type === "output_text");
+        if (textItem?.text) return textItem.text;
+      }
     }
-  } catch {}
+  } catch (e) {}
   return "";
 }
 
