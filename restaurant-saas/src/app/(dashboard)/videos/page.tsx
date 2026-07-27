@@ -42,6 +42,17 @@ export default function VideosPage() {
   useEffect(() => {
     localStorage.setItem("video_history", JSON.stringify(videoHistory));
   }, [videoHistory]);
+
+  // Import analysis result from 运营助手
+  useEffect(() => {
+    const ref = sessionStorage.getItem("agent_reference_video");
+    if (ref) {
+      setScript(ref);
+      sessionStorage.removeItem("agent_reference_video");
+      toast.success("已导入运营助手的视频分析结果，请调整脚本后点击生成");
+    }
+  }, []);
+
   const [script, setScript] = useState(SCRIPTS[template.id]);
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState<string[]>([]);

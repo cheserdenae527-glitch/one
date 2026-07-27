@@ -19,6 +19,7 @@ export function checkAccountSetupRule(ctx: PipelineContext): RuleMatch {
         description: "你的账号还在新建期，建议先设置账号名称和头像",
         actionLabel: "去设置",
         actionType: "navigate",
+          payload: { url: "/settings" },
         confidence: 95,
       },
     };

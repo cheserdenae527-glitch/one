@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ImageTemplateGenerator from "@/components/images/image-template-generator";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -8,6 +8,14 @@ import { Download, Sparkles } from "lucide-react";
 export default function ImagesPage() {
   const [generating, setGenerating] = useState(false);
   const [generatedImages, setGeneratedImages] = useState<string[]>([]);
+
+  useEffect(() => {
+    const ref = sessionStorage.getItem("agent_reference_image");
+    if (ref) {
+      sessionStorage.removeItem("agent_reference_image");
+      toast.success("已导入运营助手的分析结果，请根据分析调整出图参数");
+    }
+  }, []);
 
   async function handleGenerate(params: any) {
     setGenerating(true);

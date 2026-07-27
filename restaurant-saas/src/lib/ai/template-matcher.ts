@@ -3,8 +3,8 @@ import { SEED_TEMPLATES } from "./template-seeds";
 
 const PM: Record<string,string> = {大众点评:"dianping",小红书:"xiaohongshu",抖音:"douyin"}
 
-export function selectTemplates(input: MatchInput): MatchResult {
-  const all = SEED_TEMPLATES.filter(t => t.status === "active" || t.status === "observing");
+export function selectTemplates(input: MatchInput, templates?: Template[]): MatchResult {
+  const all = (templates ?? SEED_TEMPLATES).filter(t => t.status === "active" || t.status === "observing");
   let l1=0,l2=0,l3=0;
   let c = all.filter(t => t.platforms.includes(PM[input.platform]||input.platform)); l1=c.length;
   if (input.cuisine && input.cuisine !== "all") { c = c.filter(t => t.cuisines.includes("all") || t.cuisines.includes(input.cuisine)); }

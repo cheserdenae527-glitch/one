@@ -12,23 +12,38 @@ export interface HomogeneityResult {
  *
  * 之前 pipeline.ts 里是硬编码 { severity: "none", score: 0 }，
  * 导致 priority-rules.ts 里的同质化规则和 pipeline.ts 里的熔断
- * (shouldMeltdown) 永远不会命中。这里改成基于近期内容标题真实调用
+ * (shouldMeltdown) 永远不会命中。这里改成基于近期内容真实调用
  * homogeneity 工具。
  *
  * 注意：homogeneityTool.execute 内部已经处理了 <3 篇内容时返回 "none"
  * 的冷启动情况（对应文档 4.4 节），这里不需要重复判断。
  */
+
+/**
+ * GeneratedContentRecord 目前没有 title 字段（不想为此阻塞接线先去改
+ * content_history 表 schema），所以用 contentType + hookType + structure
+ * + tone 拼一个可比较的"内容指纹"代替标题喂给 LLM 判断同质化。
+ *
+ * 这是一个明确的临时方案：拼出来的字符串能反映"这几篇是不是同一个套路"，
+ * 但不如真实标题直观、也丢失了具体话题信息（比如"抄底价"和"周末探店"这种
+ * 主题差异，如果 hookType/structure 一样会被拼成同一个指纹）。
+ *
+ * TODO: content_history 表补上 title 字段后，把下面这个函数换成直接读
+ * `c.title`，checkHomogeneity() 的调用方不需要跟着改。
+ */
+function buildContentFingerprint(c: GeneratedContentRecord): string | undefined {
+  const parts = [c.contentType, c.hookType, c.structure, c.tone].filter(Boolean);
+  return parts.length > 0 ? parts.join(" / ") : undefined;
+}
+
 export async function checkHomogeneity(
   merchantId: string,
   recentContent: GeneratedContentRecord[],
   context: { merchantId: string; storeInfo: any }
 ): Promise<HomogeneityResult> {
-  // 只取近 N 篇的标题；如果你们的 GeneratedContentRecord 里没存标题，
-  // 需要在 content_history 表里补一个 title 字段，或者用 templateId/hookType
-  // 拼一个可比较的摘要代替标题。这里先用可选字段兜底，避免类型报错。
   const recentTitles = recentContent
     .slice(-10)
-    .map((c: any) => c.title as string | undefined)
+    .map(buildContentFingerprint)
     .filter((t): t is string => Boolean(t));
 
   if (recentTitles.length < 3) {

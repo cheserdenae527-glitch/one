@@ -1,17 +1,16 @@
 "use client";
- 
+
 import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { Loader2, Sparkles, X, Copy, Bookmark, Trash2, RotateCcw } from "lucide-react";
-import HotContentPanel from "@/components/content/hot-content-panel";
 import { FormRenderer } from "@/components/content/form-renderer";
 import { DouyinSubTypeSelector } from "@/components/content/DouyinSubTypeSelector";
 
 import { getSubTypeSchema, getSubTypeSchemaDefaults } from "@/components/content/subtype-form-schemas";
- 
+
  /* ── 顶层类型 ── */
  const CONTENT_TYPES = [
    { id: "dianping", label: "大众点评", desc: "12 种专项文案，覆盖店铺运营全场景" },
@@ -20,7 +19,7 @@ import { getSubTypeSchema, getSubTypeSchemaDefaults } from "@/components/content
    { id: "reply", label: "评价回复", desc: "好评感谢、差评回复" },
    { id: "douyin", label: "抖音脚本", desc: "短视频口播脚本" },
  ];
- 
+
  /* ── 大众点评子类型 ── */
  interface DianpingSubItem {
    id: string;
@@ -29,12 +28,12 @@ import { getSubTypeSchema, getSubTypeSchemaDefaults } from "@/components/content
    length: boolean; // 是否需要长度选择
    ref: boolean;    // 是否需要参考内容输入
  }
- 
+
  interface DianpingSubGroup {
    group: string;
    items: DianpingSubItem[];
  }
- 
+
  const DIANPING_SUBTYPES: DianpingSubGroup[] = [
    {
      group: "基础信息类",
@@ -69,7 +68,7 @@ import { getSubTypeSchema, getSubTypeSchemaDefaults } from "@/components/content
      ],
    },
  ];
- 
+
  /* ── 获取当前选中子类型的配置 ── */
  function getActiveSubItem(subTypeId: string | null): DianpingSubItem | null {
    if (!subTypeId) return null;
@@ -85,12 +84,12 @@ import { getSubTypeSchema, getSubTypeSchemaDefaults } from "@/components/content
    }
    return null;
  }
- 
+
  /* ── 全局控制选项 ── */
  const TONES = ["轻松自然", "正式专业", "活泼潮流"];
  const LENGTHS = ["短（200字）", "中（500字）", "长（800字）"];
  const MAX_HISTORY = 20;
- 
+
  /* ── Demo 内容（AI 不可用时的 fallback） ── */
  const DEMO_CONTENTS: Record<string, string> = {
    dianping: "请先选择具体的大众点评文案类型。",
@@ -99,7 +98,7 @@ import { getSubTypeSchema, getSubTypeSchemaDefaults } from "@/components/content
    reply: "感谢您的光临和好评！我们的毛肚确实是每天凌晨去市场现选的，师傅4点就去挑货了。下次来试试我们新出的菌汤锅底，也是最近很受欢迎的新品。期待您再次光临！",
    douyin: "【3秒钩子】在上海吃了10年的火锅店，到底凭什么天天排队？\n\n【店铺故事】老码头火锅开了12年，老板老陈自己就是炒料师傅，每天凌晨4点去市场挑毛肚。\n\n【产品展示】看这锅红油，看这毛肚的纹理，七上八下入口脆嫩。\n\n【用户场景】朋友聚餐来这，情侣约会来这，一个人想吃火锅也来这。\n\n【行动引导】左下角定位在这里，来晚了可要排队哦！",
  };
- 
+
  const SUBTYPE_DEMOS: Record<string, string> = {
    dianping_profile: "开了12年的老成都火锅，坚持每天现熬牛油锅底。招牌毛肚每日凌晨现切，入口爽脆化渣。\n\n位于人民广场商圈，交通便利，环境宽敞适合聚餐。人均80-120元，性价比超高。\n\n推荐菜品：精品鲜毛肚、手打虾滑、鲜切黄牛肉。适合朋友聚会、情侣约会、家庭聚餐。",
    dianping_service: "🅿️ 门口有停车场，开车来也方便\n📶 全店免费 WiFi，边吃边刷剧\n🎤 3 间主题包厢，生日聚会首选\n👶 提供儿童座椅，带娃不慌",
@@ -116,7 +115,7 @@ import { getSubTypeSchema, getSubTypeSchemaDefaults } from "@/components/content
  };
 
 /* ── 类型定义 ── */
- 
+
  /* ── 小红书 Demo 内容 ── */
  const XIAOHONGSHU_DEMOS: Record<string, string> = {
    xiaohongshu_bio: "🏠 上海隐藏级川味老火锅｜开了12年的老味道\n🌶️ 坚持每天现熬牛油锅底，毛肚凌晨现切\n📍 人民路88号B1层（人民广场站C口步行3分钟）\n⏰ 周一至周日 11:00-22:00\n❤️ 关注我们，每周更新隐藏菜单不迷路",
@@ -137,7 +136,7 @@ import { getSubTypeSchema, getSubTypeSchemaDefaults } from "@/components/content
    content: string;
    time: string;
  }
- 
+
  interface AppliedAnalysis {
    writingStyle?: string;
    hookType?: string;
@@ -145,7 +144,7 @@ import { getSubTypeSchema, getSubTypeSchemaDefaults } from "@/components/content
    toneTags?: string[];
    promptTemplate?: string;
  }
- 
+
  /* ── 子类型提示映射 ── */
  const SUBTYPE_TIPS: Record<string, string> = {
    dianping_profile: "突出店铺历史或独特工艺，避免空洞形容词",
@@ -158,7 +157,7 @@ import { getSubTypeSchema, getSubTypeSchemaDefaults } from "@/components/content
  };
 
 /* ═══════════════════════ 组件 ═══════════════════════ */
- 
+
  /* ── 小红书子类型提示 ── */
  const DOUYIN_TIPS: Record<string, string> = {
   douyin_nickname: "昵称要包含城市+品类关键词，提升搜索权重",
@@ -200,7 +199,7 @@ const XIAOHONGSHU_TIPS: Record<string, string> = {
    const [isSaved, setIsSaved] = useState(false);
   const [history, setHistory] = useState<HistoryItem[]>([]);
   const [formValues, setFormValues] = useState<Record<string, any>>({});
- 
+
    const activeSubItem = getActiveSubItem(subType);
   // 子类型切换时加载 schema 默认值
   useEffect(() => {
@@ -220,19 +219,19 @@ const XIAOHONGSHU_TIPS: Record<string, string> = {
       localStorage.setItem("form_values_" + subType, JSON.stringify(formValues));
     }
   }, [formValues, subType, type.id]);
- 
+
    /* 从右侧热门参考应用分析结果 */
    function handleApplyAnalysis(analysis: AppliedAnalysis, title: string) {
      setReference(title);
      setAnalysisData(analysis);
      toast.success("已应用「" + title + "」的风格参考");
    }
- 
+
    function handleReferenceChange(value: string) {
      setReference(value);
      if (analysisData) setAnalysisData(null);
    }
- 
+
    /* 切换顶层类型时清空子类型 */
    function handleTypeChange(t: typeof CONTENT_TYPES[number]) {
      if (t.id === type.id) return;
@@ -241,7 +240,7 @@ const XIAOHONGSHU_TIPS: Record<string, string> = {
      setContent("");
      setIsSaved(false);
    }
- 
+
    /* 子类型选中 */
    function handleSubTypeSelect(id: string) {
      setSubType(id);
@@ -249,18 +248,18 @@ const XIAOHONGSHU_TIPS: Record<string, string> = {
      setIsSaved(false);
      // 保留已选的语气和长度
    }
- 
+
    useEffect(() => {
      const saved = localStorage.getItem("content_history");
      if (saved) {
        try { setHistory(JSON.parse(saved)); } catch { /* silent */ }
      }
    }, []);
- 
+
    useEffect(() => {
      localStorage.setItem("content_history", JSON.stringify(history));
    }, [history]);
- 
+
    async function handleGenerate() {
      setLoading(true);
      setIsSaved(false);
@@ -309,7 +308,7 @@ const XIAOHONGSHU_TIPS: Record<string, string> = {
        setLoading(false);
      }
    }
- 
+
    function handleSave() {
      if (!content.trim()) return;
      const label =
@@ -323,23 +322,23 @@ const XIAOHONGSHU_TIPS: Record<string, string> = {
      setIsSaved(true);
      toast.success("已保存到历史内容");
    }
- 
+
    function handleCopy() {
      navigator.clipboard.writeText(content);
      toast.success("已复制到剪贴板");
    }
- 
+
    function handleRestore(item: HistoryItem) {
      setContent(item.content);
      setIsSaved(true);
      toast.success("已恢复这段文案，可以继续编辑");
    }
- 
+
    function handleDeleteHistory(id: string, e: React.MouseEvent) {
      e.stopPropagation();
      setHistory((prev) => prev.filter((h) => h.id !== id));
    }
- 
+
    /* ── Render ── */
    return (
      <div className="p-6 flex gap-6 max-w-[1400px] mx-auto">
@@ -347,7 +346,7 @@ const XIAOHONGSHU_TIPS: Record<string, string> = {
        <div className="flex-1 space-y-6 min-w-0">
          <h1 className="text-2xl font-bold tracking-tight">内容创作</h1>
          <p className="text-sm text-muted-foreground -mt-4">选择内容类型，AI 自动生成高质量文案</p>
- 
+
          {/* ── 顶层类型网格 ── */}
          <div className="grid grid-cols-5 gap-3">
            {CONTENT_TYPES.map((t) => (
@@ -366,7 +365,7 @@ const XIAOHONGSHU_TIPS: Record<string, string> = {
              </Card>
            ))}
          </div>
- 
+
          {/* ── 大众点评子类型选择器 ── */}
          {type.id === "dianping" && (
            <div className="space-y-3">
@@ -422,7 +421,7 @@ const XIAOHONGSHU_TIPS: Record<string, string> = {
             />
           </div>
         )}
- 
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
            {/* ── 控制面板 ── */}
            <Card>
@@ -433,7 +432,7 @@ const XIAOHONGSHU_TIPS: Record<string, string> = {
                    请先在上方选择一个具体的文案类型
                  </div>
               )}
- 
+
               {/* 大众点评子类型：FormRenderer */}
               {(type.id === "dianping" || type.id === "xiaohongshu" || type.id === "douyin") && subType && getSubTypeSchema(subType) && (
                 <div className="space-y-4">
@@ -444,7 +443,7 @@ const XIAOHONGSHU_TIPS: Record<string, string> = {
                   />
                 </div>
               )}
- 
+
               {/* 隐藏条件：未选子类型时整个控制区隐藏 */}
               {type.id !== "dianping" && (
                  <>
@@ -461,7 +460,7 @@ const XIAOHONGSHU_TIPS: Record<string, string> = {
                        </div>
                      </div>
                    )}
- 
+
                    {/* 长度 — 根据子类型配置显示 */}
                    {(type.id !== "dianping" || activeSubItem?.length !== false) && (
                      <div>
@@ -475,7 +474,7 @@ const XIAOHONGSHU_TIPS: Record<string, string> = {
                        </div>
                      </div>
                    )}
- 
+
                    {/* 参考内容 — 根据子类型配置显示 */}
                    {(type.id !== "dianping" || activeSubItem?.ref !== false) && (
                      <div>
@@ -519,7 +518,7 @@ const XIAOHONGSHU_TIPS: Record<string, string> = {
                    )}
                  </>
                )}
- 
+
                {/* 生成按钮 */}
                <Button
                  className="w-full"
@@ -538,7 +537,7 @@ const XIAOHONGSHU_TIPS: Record<string, string> = {
                    </>
                  )}
                </Button>
- 
+
                {/* 底部提示 */}
                <div className="text-xs text-muted-foreground bg-muted/30 rounded p-2">
                  {type.id === "dianping" && subType
@@ -557,7 +556,7 @@ const XIAOHONGSHU_TIPS: Record<string, string> = {
                </div>
              </CardContent>
            </Card>
- 
+
            {/* ── 生成结果 ── */}
            <Card>
              <CardContent className="p-4 space-y-3">
@@ -592,7 +591,7 @@ const XIAOHONGSHU_TIPS: Record<string, string> = {
              </CardContent>
            </Card>
          </div>
- 
+
          {/* ── 历史内容 ── */}
          {history.length > 0 && (
            <Card>
@@ -629,45 +628,12 @@ const XIAOHONGSHU_TIPS: Record<string, string> = {
            </Card>
          )}
        </div>
- 
-       {/* 右侧运营助手面板 */}
-       <div className="w-72 shrink-0 space-y-4 hidden lg:block">
-         <div className="rounded-xl border bg-card text-card-foreground shadow-sm">
-           <div className="p-3 border-b">
-             <h3 className="text-xs font-semibold">运营助手</h3>
-           </div>
-           <div className="p-3 border-b">
-             <div className="text-[10px] text-muted-foreground mb-1">当前创作</div>
-             <div className="text-xs font-medium">
-               {type.id === "dianping" && subType
-                 ? "大众点评 · " + (getActiveSubItem(subType)?.label || subType)
-                 : type.label}
-             </div>
-           </div>
-           <div className="p-3 border-b">
-             <div className="text-[10px] text-muted-foreground mb-2">创作方向建议</div>
-             <div className="p-2 bg-muted/20 rounded-lg text-xs">
-               {type.id === "dianping" && subType && SUBTYPE_TIPS[subType]
-                 ? SUBTYPE_TIPS[subType]
-                 : type.id === "dianping"
-                 ? "选择一个具体文案类型获取创作建议"
-                 : type.id === "xiaohongshu"
-                ? subType && XIAOHONGSHU_TIPS[subType] ? XIAOHONGSHU_TIPS[subType] : "用生活化口吻，避免过度营销感"
-                 : type.id === "douyin"
-                 ? "前3秒要有钩子，抓住注意力"
-                 : "突出限时感，制造紧迫感"}
-             </div>
-           </div>
-           <div className="p-3">
-             <HotContentPanel onApplyAnalysis={handleApplyAnalysis} appliedTitle={analysisData ? reference : null} />
-           </div>
-         </div>
-       </div>
-     </div>
+
+      </div>
    );
  }
 
- 
+
  /* ── 小红书子类型 ── */
  const DOUYIN_SUBTYPES: DianpingSubGroup[] = [
   { group: "账号基础类", items: [{ id: "douyin_nickname", label: "账号昵称", tone: true, length: false, ref: false }, { id: "douyin_bio", label: "简介Bio", tone: true, length: false, ref: true }] },
