@@ -1,5 +1,6 @@
 import { callLLM } from "@/lib/ai/client";
 import type { AgentTool, AgentContext } from "../types";
+import { safeParseLLMJsonOr } from "../json-utils";
 
 export interface HomogeneityInput {
   recentTitles?: string[];
@@ -26,7 +27,7 @@ const homogeneityTool: AgentTool<HomogeneityInput, HomogeneityOutput> = {
       return { severity: "none", score: 0, suggestions: ["内容不足3篇，跳过同质化检查"] };
     }
     const prompt = `分析以下近期发布的内容标题，评估同质化程度（0-100，越高越重复）：
-${input.recentTitles.map((t, i) => `${i+1}. ${t}`).join("\n")}
+${input.recentTitles.map((t, i) => `${i + 1}. ${t}`).join("\n")}
 
 输出 JSON：
 {
@@ -37,7 +38,14 @@ ${input.recentTitles.map((t, i) => `${i+1}. ${t}`).join("\n")}
 
 只返回 JSON。`;
     const result = await callLLM(prompt, 512);
-    return JSON.parse(result) as HomogeneityOutput;
+
+    // 修复点：原来是裸 JSON.parse(result)，模型偶尔带围栏或解释文字就会
+    // 直接抛异常。改为安全解析 + 降级值，同时把解析失败记下来方便排查。
+    return safeParseLLMJsonOr<HomogeneityOutput>(
+      result,
+      { severity: "none", score: 0, suggestions: ["同质化检测解析失败，本次跳过"] },
+      (err) => console.error("[check_homogeneity] LLM 输出解析失败:", err.message)
+    );
   },
 };
 

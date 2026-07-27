@@ -8,7 +8,6 @@ function matchCuisine(storeCuisine: string, postCuisine: string): number {
   const s = storeCuisine.toLowerCase();
   const p = postCuisine.toLowerCase();
   if (s === p) return 100;
-  // Same broader category (e.g., 火锅→串串)
   const categoryGroups: Record<string, string[]> = {
     "hotpot": ["火锅", "串串", "麻辣烫", "冒菜"],
     "bbq": ["烧烤", "烤肉", "铁板烧"],
@@ -30,14 +29,12 @@ function matchCuisine(storeCuisine: string, postCuisine: string): number {
 // 客单价匹配（规则计算）
 function matchPriceRange(storePrice: string, postPriceHint: string): number {
   if (!storePrice) return 50;
-  // Parse store price range (e.g., "80" or "60-100")
   const storeMatch = storePrice.match(/(\d+)/);
   if (!storeMatch) return 50;
   const storeAvg = parseInt(storeMatch[1]);
 
-  // Parse post price hint (e.g., "人均80" or "人均60-100")
   const postMatch = postPriceHint.match(/(\d+)/);
-  if (!postMatch) return 70; // No price info in post → neutral
+  if (!postMatch) return 70;
   const postAvg = parseInt(postMatch[1]);
 
   const ratio = Math.min(storeAvg, postAvg) / Math.max(storeAvg, postAvg);
@@ -49,7 +46,7 @@ function matchPriceRange(storePrice: string, postPriceHint: string): number {
 
 // 人设契合度（LLM 打分，仅当商家已设置人设时）
 async function matchPersona(storePersona: BrandPersona | undefined | null, postContent: string): Promise<number> {
-  if (!storePersona?.tone) return 50; // 未设置人设 → 中性值
+  if (!storePersona?.tone) return 50;
   const prompt = `比较以下店铺人设和内容语气的契合度（0-100）：
 店铺人设定位：${storePersona.position}
 语气风格：${storePersona.tone}
@@ -73,16 +70,14 @@ function matchDistrict(storeAddress: string, postLocation: string): number {
   if (!storeAddress) return 50;
   const s = storeAddress.toLowerCase();
   const p = (postLocation || "").toLowerCase();
-  if (!p) return 70; // No location in post → neutral
-  // Simple tiered matching
-  if (s.includes(p) || p.includes(s)) return 100; // Same district
-  // Extract city level
+  if (!p) return 70; // 帖子没提地点 → 中性值
+  if (s.includes(p) || p.includes(s)) return 100;
   const cityRegex = /(.+?(?:市|区|县|城))/;
   const storeCity = s.match(cityRegex)?.[1];
   const postCity = p.match(cityRegex)?.[1];
-  if (storeCity && postCity && storeCity === postCity) return 60; // Same city
-  if (storeCity && postCity) return 30; // Different city, same province
-  return 0; // Different province
+  if (storeCity && postCity && storeCity === postCity) return 60;
+  if (storeCity && postCity) return 30;
+  return 0;
 }
 
 export async function matchTrendToMerchant(
@@ -93,9 +88,16 @@ export async function matchTrendToMerchant(
   const cuisineScore = matchCuisine(storeInfo.cuisineType || "", analysis.topic.primaryCategory);
   const priceScore = matchPriceRange(storeInfo.priceRange || "", analysis.toneAndKeywords.keywords.join("、"));
   const personaScore = await matchPersona(persona, analysis.toneAndKeywords.tone);
-  const districtScore = matchDistrict(storeInfo.address || "", analysis.postInfo.platform);
 
-  // Weighted total
+  // 修复点：原来传的是 analysis.postInfo.platform（"小红书"这种平台名），
+  // 商圈匹配函数期望的是地理位置文本，两者语义完全不同，算出来的分数没有意义。
+  // TrendAnalysisResult 目前没有单独的 location 字段，暂时从帖子正文/标题里
+  // 也提取不到可靠地址，所以这里先用中性值兜底，而不是继续传错误的参数。
+  // TODO: 需要在 content-analyzer.ts 的 8 维分析里新增一个 location 字段
+  // （比如从帖子标题/正文里提取"XX市XX区"），分析引擎升级后把下面这行换成
+  // matchDistrict(storeInfo.address || "", analysis.postInfo.location || "")
+  const districtScore = 70; // 中性值，明确标注这是临时兜底，不是"同城"的真实判断
+
   const overallScore = Math.round(
     cuisineScore * 0.30 + priceScore * 0.20 + personaScore * 0.30 + districtScore * 0.20
   );
@@ -105,7 +107,6 @@ export async function matchTrendToMerchant(
   if (cuisineScore >= 70) matchReasons.push(`品类匹配度高（${cuisineScore}分）`);
   if (priceScore >= 70) matchReasons.push(`客单价区间接近`);
   if (personaScore >= 70) matchReasons.push(`人设风格契合`);
-  if (districtScore >= 70) matchReasons.push(`同城/同商圈`);
   if (cuisineScore < 40) warnings.push("品类差异较大，需要调整切入角度");
   if (priceScore < 40) warnings.push("客单价差距大，注意不要照搬价位表达");
 
