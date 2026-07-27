@@ -1,18 +1,17 @@
 import { NextResponse } from "next/server";
-import { callLLM } from "@/lib/ai/client";
 import { buildAgentContext } from "@/lib/agent";
 import { createToolRegistry } from "@/lib/agent/tools";
-import { buildChatPrompt } from "@/lib/agent/prompts";
+import { buildChatPrompt, buildAgentSystemPrompt } from "@/lib/agent/prompts";
+import { callDeepSeekWithMessages, callLLM } from "@/lib/ai/client";
 import type { AgentContext } from "@/lib/agent/types";
 
 export async function POST(request: Request) {
   try {
-    const { message } = await request.json();
-    if (!message || typeof message !== "string") {
-      return NextResponse.json({ error: "message is required" }, { status: 400 });
+    const { messages } = await request.json();
+    if (!messages || !Array.isArray(messages) || messages.length === 0) {
+      return NextResponse.json({ error: "messages array is required" }, { status: 400 });
     }
 
-    // 尝试获取商家上下文，失败时使用最小 fallback
     let context: AgentContext;
     try {
       context = await buildAgentContext("demo-merchant");
@@ -23,13 +22,23 @@ export async function POST(request: Request) {
       };
     }
 
-    // 加载工具列表，用于文字指导（模型知道有哪些工具可用）
     const registry = createToolRegistry();
     await registry.init();
     const tools = registry.listTools();
 
-    const prompt = buildChatPrompt(message, context, tools);
-    const result = await callLLM(prompt, 1024);
+    const systemContent = buildAgentSystemPrompt(context, tools);
+    const apiMessages: Array<{ role: string; content: string }> = [
+      { role: "system", content: systemContent },
+      ...messages.map((m: any) => ({
+        role: m.role === "agent" ? "assistant" : "user",
+        content: m.content,
+      })),
+    ];
+
+    const result = process.env.DEEPSEEK_API_KEY
+      ? await callDeepSeekWithMessages(apiMessages, 1024)
+      : await callLLM(apiMessages.map(m => m.content).join("\n"), 1024);
+
     return NextResponse.json({ response: result });
   } catch (error) {
     console.error("Agent chat error:", error);

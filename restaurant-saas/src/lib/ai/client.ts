@@ -45,6 +45,30 @@ export async function callDeepSeek(prompt: string, maxTokens = 2048): Promise<st
   return data?.choices?.[0]?.message?.content || "";
 }
 
+export async function callDeepSeekWithMessages(
+  messages: Array<{ role: string; content: string }>,
+  maxTokens = 2048
+): Promise<string> {
+  const apiKey = process.env.DEEPSEEK_API_KEY;
+  if (!apiKey) throw new Error("No DeepSeek API key configured");
+  const res = await fetch("https://api.deepseek.com/chat/completions", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Authorization: "Bearer " + apiKey },
+    body: JSON.stringify({
+      model: "deepseek-chat",
+      messages,
+      temperature: 0.7,
+      max_tokens: maxTokens,
+    }),
+  });
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error("DeepSeek API failed: " + res.status + " " + err.substring(0, 200));
+  }
+  const data = await res.json();
+  return data?.choices?.[0]?.message?.content || "";
+}
+
 export async function callDoubao(prompt: string, maxTokens: number): Promise<string> {
   const apiKey = process.env.VOLC_API_KEY;
   if (!apiKey) throw new Error("No API key configured");

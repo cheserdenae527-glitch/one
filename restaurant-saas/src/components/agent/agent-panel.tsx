@@ -72,10 +72,11 @@ export function AgentPanel() {
     setInputValue("");
     setSending(true);
 
+    const history = [...messages, userMsg].map(m => ({ role: m.role, content: m.content }));
     fetch("/api/agent/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: userMsg.content }),
+      body: JSON.stringify({ messages: history }),
     })
       .then(res => res.json())
       .then(data => {
