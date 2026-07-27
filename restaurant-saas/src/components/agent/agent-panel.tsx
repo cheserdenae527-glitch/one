@@ -24,6 +24,7 @@ export function AgentPanel() {
   ]);
   const [loading, setLoading] = useState(true);
   const [inputValue, setInputValue] = useState("");
+  const [sending, setSending] = useState(false);
 
   // 每日首次加载时从 pipeline 获取建议
   useEffect(() => {
@@ -63,14 +64,31 @@ export function AgentPanel() {
 
   const handleSend = () => {
     if (!inputValue.trim()) return;
+    if (sending) return;
     const userMsg: Message = { id: Date.now().toString(), role: "user", content: inputValue };
-    const agentMsg: Message = {
-      id: (Date.now() + 1).toString(),
-      role: "agent",
-      content: "好的，我来帮你分析一下。正在跑权重系统获取最佳建议...",
-    };
-    setMessages(prev => [...prev, userMsg, agentMsg]);
+    const loadingId = (Date.now() + 1).toString();
+    const loadingMsg: Message = { id: loadingId, role: "agent", content: "正在分析..." };
+    setMessages(prev => [...prev, userMsg, loadingMsg]);
     setInputValue("");
+    setSending(true);
+
+    fetch("/api/agent/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: userMsg.content }),
+    })
+      .then(res => res.json())
+      .then(data => {
+        setMessages(prev => prev.map(m =>
+          m.id === loadingId ? { ...m, content: data.response || "好的，已收到你的消息。" } : m
+        ));
+      })
+      .catch(() => {
+        setMessages(prev => prev.map(m =>
+          m.id === loadingId ? { ...m, content: "抱歉，暂时无法处理，请稍后再试。" } : m
+        ));
+      })
+      .finally(() => setSending(false));
   };
 
   const handleAction = (action: string) => {
