@@ -34,11 +34,15 @@ export async function middleware(request: NextRequest) {
   const isAuthPage = request.nextUrl.pathname.startsWith("/sign-in") ||
     request.nextUrl.pathname.startsWith("/sign-up");
 
-  if (!user && !isAuthPage) {
-    return NextResponse.redirect(new URL("/sign-in", request.url));
-  }
-  if (user && isAuthPage) {
-    return NextResponse.redirect(new URL("/operations", request.url));
+  // Demo mode: skip auth checks so pages render with demo data
+  const isDemo = request.nextUrl.searchParams.has("demo") || !process.env.NEXT_PUBLIC_SUPABASE_URL?.startsWith("http");
+  if (!isDemo) {
+    if (!user && !isAuthPage) {
+      return NextResponse.redirect(new URL("/sign-in", request.url));
+    }
+    if (user && isAuthPage) {
+      return NextResponse.redirect(new URL("/operations", request.url));
+    }
   }
   return supabaseResponse;
 }
@@ -46,5 +50,6 @@ export async function middleware(request: NextRequest) {
 export const config = {
   matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
 };
+
 
 
