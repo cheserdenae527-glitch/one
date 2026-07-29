@@ -27,7 +27,24 @@
       "briefContent": "谁懂这一口的好吃程度啊 #火锅#南京美食",
       "contentType": "video",
       "hotScore": 1,
-      "imageUrl": "https://p3-pc-sign.douyinpic.com/tos-cn-i-0813/oYi5BboiAtF9mEaAEj7I1jv09AIBAPQTDyPEA~tplv-dy-cropcenter:323:430.jpeg?biz_tag=pcweb_cover&from=327834062&lk3s=138a59ce&s=PackSourceEnum_SEARCH&sc=cover&se=true&sh=323_430&x-expires=2100229200&x-signature=j3p4AUstR6KYXY68Nurx%2BhtAk18%3D"
+      "imageUrl": "https://p3-pc-sign.douyinpic.com/tos-cn-i-0813/oYi5BboiAtF9mEaAEj7I1jv09AIBAPQTDyPEA~tplv-dy-cropcenter:323:430.jpeg?biz_tag=pcweb_cover&from=327834062&lk3s=138a59ce&s=PackSourceEnum_SEARCH&sc=cover&se=true&sh=323_430&x-expires=2100229200&x-signature=j3p4AUstR6KYXY68Nurx%2BhtAk18%3D",
+      "analysis": {
+        "writingStyle": "简洁直白，带有强烈主观感受和情感共鸣",
+        "hookType": "直白式",
+        "structure": [
+          "抛出感叹式表达引发好奇",
+          "使用热门话题标签增加曝光"
+        ],
+        "toneTags": [
+          "感叹",
+          "亲切",
+          "种草"
+        ],
+        "angleName": "好奇引流",
+        "formatName": "口播体",
+        "visualStyle": "无特定视觉描述，适合配合诱人食物画面",
+        "promptTemplate": "请用一句感叹式表达开头，描述某食物/场景的绝佳体验，结尾带上相关热门话题标签，例如：谁懂这一口[食物名称]的[感受形容词]啊 #[相关话题] #[地区美食]"
+      }
     },
     {
       "id": "douyin_1784870784264_2",

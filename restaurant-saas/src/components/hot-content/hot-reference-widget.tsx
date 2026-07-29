@@ -1,9 +1,11 @@
 "use client";
 import { useState } from "react";
-import { TrendingUp, ChevronDown, ChevronUp } from "lucide-react";
-import HotContentPanel from "@/components/content/hot-content-panel";
+import { TrendingUp, ChevronDown, ChevronUp, Sparkles } from "lucide-react";
 import { LinkInput } from "@/components/hot-content/link-input";
 import { useAgent } from "@/components/agent/agent-context";
+import { HotContentAnalysis } from "@/lib/ai/hot-contents";
+import { HotContentPanel } from "@/components/hot-content/hot-content-panel";
+import { SuggestionPanel } from "@/components/hot-content/suggestion-panel";
 
 /**
  * 热门参考 is a persistent, always-visible widget pinned to the top-right
@@ -25,7 +27,35 @@ import { useAgent } from "@/components/agent/agent-context";
  */
 export function HotReferenceWidget() {
   const [collapsed, setCollapsed] = useState(false);
+  const [tab, setTab] = useState<"hot" | "direction">("hot");
   const { openAgent } = useAgent();
+
+  const handleInject = (analysis: HotContentAnalysis) => {
+    const parts = [
+      "请参考以下热门内容的结构特征，为我的店铺生成一个可直接使用的视频脚本和配套推广文案：",
+      "",
+      "【参考内容结构】",
+      "风格：" + analysis.writingStyle,
+      "钩子：" + analysis.hookType,
+      "结构：" + (analysis.structure?.join(" -> ") || ""),
+      "语气：" + (analysis.toneTags?.join("/") || ""),
+    ];
+    if (analysis.angleName) parts.push("角度：" + analysis.angleName);
+    if (analysis.formatName) parts.push("体裁：" + analysis.formatName);
+    parts.push("提示词模板：" + analysis.promptTemplate);
+    parts.push("");
+    parts.push("请按以下格式输出：");
+    parts.push("");
+    parts.push("## 视频脚本（分镜表）");
+    parts.push("| 时间 | 画面 | 旁白/字幕 | 备注 |");
+    parts.push("");
+    parts.push("## 口播/字幕文案");
+    parts.push("(完整的口播稿或字幕文本)");
+    parts.push("");
+    parts.push("## 推广文案");
+    parts.push("(适配抖音/小红书/大众点评的文案)");
+    openAgent(parts.join("\n"));
+  };
 
   if (collapsed) {
     return (
@@ -57,9 +87,30 @@ export function HotReferenceWidget() {
       </div>
 
       <div className="flex-1 overflow-y-auto p-3">
-        {/* Pass onReference={(item) => openAgent(item.content)} once
-            HotContentPanel supports it — see integration note above. */}
-        <HotContentPanel />
+        <div className="flex gap-1 mb-3 bg-background border rounded-md p-0.5">
+          <button
+            onClick={() => setTab("hot")}
+            className={`flex-1 text-xs py-1 rounded text-center transition-colors ${
+              tab === "hot" ? "bg-primary text-primary-foreground" : "hover:bg-muted"
+            }`}
+          >
+            热门参考
+          </button>
+          <button
+            onClick={() => setTab("direction")}
+            className={`flex-1 text-xs py-1 rounded text-center transition-colors ${
+              tab === "direction" ? "bg-primary text-primary-foreground" : "hover:bg-muted"
+            }`}
+          >
+            今日建议
+          </button>
+        </div>
+
+        {tab === "hot" ? (
+          <HotContentPanel onInject={handleInject} />
+        ) : (
+          <SuggestionPanel />
+        )}
       </div>
       <div className="p-3 border-t bg-muted/10 shrink-0">
         <LinkInput />

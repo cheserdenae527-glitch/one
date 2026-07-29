@@ -27,7 +27,25 @@
       "briefContent": "川菜的经典鸡的做法，泡椒炒出来酸酸辣辣 #真材实料才能吃出好味道 #晒出你亲手做的菜 #美食教程 #跟着抖音学做菜",
       "contentType": "video",
       "hotScore": 1,
-      "imageUrl": "https://p3-pc-sign.douyinpic.com/tos-cn-i-0813c001/owQpX4XBAAAnA9GagIFqsSNDlfyvreqEAACFlQ~tplv-dy-cropcenter:323:430.jpeg?biz_tag=pcweb_cover&from=327834062&lk3s=138a59ce&s=PackSourceEnum_SEARCH&sc=cover&se=true&sh=323_430&x-expires=2100229200&x-signature=gESbqhbr5zz0dz9lOg2doDH5Ihc%3D"
+      "imageUrl": "https://p3-pc-sign.douyinpic.com/tos-cn-i-0813c001/owQpX4XBAAAnA9GagIFqsSNDlfyvreqEAACFlQ~tplv-dy-cropcenter:323:430.jpeg?biz_tag=pcweb_cover&from=327834062&lk3s=138a59ce&s=PackSourceEnum_SEARCH&sc=cover&se=true&sh=323_430&x-expires=2100229200&x-signature=gESbqhbr5zz0dz9lOg2doDH5Ihc%3D",
+      "analysis": {
+        "writingStyle": "简洁直白，突出食材和口味，加点话题标签引流",
+        "hookType": "直白式",
+        "structure": [
+          "标题直接点明菜品和关键风味",
+          "内容摘要重复标题，强化记忆",
+          "附加多个话题标签扩大曝光"
+        ],
+        "toneTags": [
+          "家常",
+          "实用",
+          "亲切"
+        ],
+        "angleName": "单品深挖",
+        "formatName": "教程体",
+        "visualStyle": "短视频口播或制作过程展示，画面聚焦食材和烹饪步骤",
+        "promptTemplate": "请撰写一条关于[菜品名称]的抖音美食短视频文案，标题要突出[核心食材/口味]，内容摘要与标题一致，并添加至少3个相关话题标签，语言风格[简洁/家常/实用]。"
+      }
     },
     {
       "id": "douyin_1784870813785_2",
@@ -40,7 +58,24 @@
       "briefContent": "你可以相信川菜的下饭力度！！ #晚餐菜谱参考",
       "contentType": "video",
       "hotScore": 1,
-      "imageUrl": "https://p3-pc-sign.douyinpic.com/tos-cn-i-dy/7846f5577a1b482490df00a914fe2698~tplv-dy-cropcenter:323:430.jpeg?biz_tag=pcweb_cover&from=327834062&lk3s=138a59ce&s=PackSourceEnum_SEARCH&sc=cover&se=true&sh=323_430&x-expires=2100229200&x-signature=MU3H5f19CLod%2FZvEm%2Fzp8AFkYOY%3D"
+      "imageUrl": "https://p3-pc-sign.douyinpic.com/tos-cn-i-dy/7846f5577a1b482490df00a914fe2698~tplv-dy-cropcenter:323:430.jpeg?biz_tag=pcweb_cover&from=327834062&lk3s=138a59ce&s=PackSourceEnum_SEARCH&sc=cover&se=true&sh=323_430&x-expires=2100229200&x-signature=MU3H5f19CLod%2FZvEm%2Fzp8AFkYOY%3D",
+      "analysis": {
+        "writingStyle": "直接强烈，强调川菜的下饭属性，使用感叹号和标签增强情绪",
+        "hookType": "直白式",
+        "structure": [
+          "标题直接抛出观点",
+          "用感叹号和标签强化情绪"
+        ],
+        "toneTags": [
+          "强烈",
+          "自信",
+          "煽动性"
+        ],
+        "angleName": "好奇引流",
+        "formatName": "口播体",
+        "visualStyle": "可能是美食特写加字幕强调文案",
+        "promptTemplate": "你可以相信[菜系/品类]的[特点]力度！！ #[相关话题标签]"
+      }
     },
     {
       "id": "douyin_1784870813785_3",
@@ -79,7 +114,26 @@
       "briefContent": "生爆香辣鱼片》 大火爆炒有锅气，鱼肉脆嫩香香辣辣好吃惨了！！！#抖音美食推荐官 #饶蹄花 #川菜",
       "contentType": "video",
       "hotScore": 1,
-      "imageUrl": "https://p3-pc-sign.douyinpic.com/tos-cn-p-0015/okE3gpTAiBKxbg93fLIAxFEAbpDOHYCYwfz3xN~tplv-dy-cropcenter:323:430.jpeg?biz_tag=pcweb_cover&from=327834062&lk3s=138a59ce&s=PackSourceEnum_SEARCH&sc=cover&se=true&sh=323_430&x-expires=2100229200&x-signature=TohgcUAhvqXVUbNEjDq%2BZPrvqQ8%3D"
+      "imageUrl": "https://p3-pc-sign.douyinpic.com/tos-cn-p-0015/okE3gpTAiBKxbg93fLIAxFEAbpDOHYCYwfz3xN~tplv-dy-cropcenter:323:430.jpeg?biz_tag=pcweb_cover&from=327834062&lk3s=138a59ce&s=PackSourceEnum_SEARCH&sc=cover&se=true&sh=323_430&x-expires=2100229200&x-signature=TohgcUAhvqXVUbNEjDq%2BZPrvqQ8%3D",
+      "analysis": {
+        "writingStyle": "口语化、夸张、强调锅气和口感，使用感叹号和表情符号增强情绪",
+        "hookType": "直白式",
+        "structure": [
+          "标题直接点明菜品和核心卖点",
+          "内容重复标题，强化记忆",
+          "添加话题标签增加曝光"
+        ],
+        "toneTags": [
+          "热情",
+          "夸张",
+          "口语化",
+          "食欲激发"
+        ],
+        "angleName": "单品深挖",
+        "formatName": "口播体",
+        "visualStyle": "动态烹饪画面，突出火爆翻炒、油亮色泽和热气",
+        "promptTemplate": "标题：{菜品名称}》 {核心做法+口感描述}，好吃惨了！！！#抖音美食推荐官 #{关联标签} #川菜"
+      }
     },
     {
       "id": "douyin_1784870813785_6",
@@ -92,7 +146,26 @@
       "briefContent": "答应我 一定要这样做一次香辣耙鸡爪 非常入味 红油浸润每寸鸡爪 Q弹软糯 学会了就是一道硬菜#香辣鸡爪 #麻辣鸡爪 #家常菜 #美食教程 教做川菜的美食博主 小川菜团购美食套餐 四川美食教程川菜 蜀都丰川菜水煮活鱼 附近川菜美食 相逢川菜鱼 川骄情川菜",
       "contentType": "video",
       "hotScore": 1,
-      "imageUrl": "https://p3-pc-sign.douyinpic.com/tos-cn-i-0813c000-ce/oIAj2wD2IFA4QzETgAE8A3BAJ8eff78PUSGBg4~tplv-dy-cropcenter:323:430.jpeg?biz_tag=pcweb_cover&from=327834062&lk3s=138a59ce&s=PackSourceEnum_SEARCH&sc=cover&se=true&sh=323_430&x-expires=2100229200&x-signature=Jtg0Alu59ibJK08utLVukZc9V%2B8%3D"
+      "imageUrl": "https://p3-pc-sign.douyinpic.com/tos-cn-i-0813c000-ce/oIAj2wD2IFA4QzETgAE8A3BAJ8eff78PUSGBg4~tplv-dy-cropcenter:323:430.jpeg?biz_tag=pcweb_cover&from=327834062&lk3s=138a59ce&s=PackSourceEnum_SEARCH&sc=cover&se=true&sh=323_430&x-expires=2100229200&x-signature=Jtg0Alu59ibJK08utLVukZc9V%2B8%3D",
+      "analysis": {
+        "writingStyle": "命令式+情感化，强调结果和诱惑力",
+        "hookType": "悬念式",
+        "structure": [
+          "发出强烈建议（答应我）",
+          "描述成品效果（入味、红油浸润、Q弹软糯）",
+          "强调学习价值（学会了就是一道硬菜）",
+          "堆叠相关标签和关键词"
+        ],
+        "toneTags": [
+          "鼓励性",
+          "诱惑性",
+          "亲切"
+        ],
+        "angleName": "单品深挖",
+        "formatName": "教程体",
+        "visualStyle": "特写食物诱人细节，突出红油和质感",
+        "promptTemplate": "答应我 一定要这样做一次[菜品名称] [描述成品特点] 学会了就是一道硬菜#[相关标签]"
+      }
     },
     {
       "id": "douyin_1784870813785_7",
@@ -144,7 +217,25 @@
       "briefContent": "《香菜牛肉丝》鲜香爽辣，神仙搭配，炫饭神器！#香菜牛肉 #抖音美食推荐官 #川菜 #舌尖上的美食 #美食教程",
       "contentType": "video",
       "hotScore": 1,
-      "imageUrl": "https://p3-pc-sign.douyinpic.com/tos-cn-i-0813c000-ce/og6A5z8eAoZDef4g2nVJT3C3zEICEAFhAAAhfD~tplv-dy-cropcenter:323:430.jpeg?biz_tag=pcweb_cover&from=327834062&lk3s=138a59ce&s=PackSourceEnum_SEARCH&sc=cover&se=true&sh=323_430&x-expires=2100229200&x-signature=y6wq2WSdJgn3g47HJo%2Fek03rxs8%3D"
+      "imageUrl": "https://p3-pc-sign.douyinpic.com/tos-cn-i-0813c000-ce/og6A5z8eAoZDef4g2nVJT3C3zEICEAFhAAAhfD~tplv-dy-cropcenter:323:430.jpeg?biz_tag=pcweb_cover&from=327834062&lk3s=138a59ce&s=PackSourceEnum_SEARCH&sc=cover&se=true&sh=323_430&x-expires=2100229200&x-signature=y6wq2WSdJgn3g47HJo%2Fek03rxs8%3D",
+      "analysis": {
+        "writingStyle": "简洁直接，突出菜品特点与情感吸引力，使用感叹号和热门标签增强传播",
+        "hookType": "直白式",
+        "structure": [
+          "标题点明菜品名称和核心卖点（鲜香爽辣、神仙搭配、炫饭神器）",
+          "内容重复标题，强化记忆",
+          "添加多个热门话题标签扩大曝光"
+        ],
+        "toneTags": [
+          "兴奋",
+          "推荐",
+          "口语化"
+        ],
+        "angleName": "单品深挖",
+        "formatName": "口播体",
+        "visualStyle": "短视频口播，配合菜品特写和制作过程画面",
+        "promptTemplate": "请写一段推广[菜品名称]的短视频口播文案，突出[核心卖点]，使用兴奋推荐语气，结尾加上相关热门话题标签。"
+      }
     },
     {
       "id": "douyin_1784870813785_11",

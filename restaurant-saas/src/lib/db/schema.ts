@@ -56,6 +56,7 @@ export const contentTemplates = pgTable("content_templates", {
   weight: decimal("weight").default("0.5"),
   usageCount: integer("usage_count").default(0),
   rejectionCount: integer("rejection_count").default(0),
+  extractedAt: timestamp("extracted_at", { withTimezone: true }),
   source: text("source").default("热榜分析"),
   isActive: boolean("is_active").default(true),
   createdAt: timestamp("created_at").defaultNow(),
@@ -183,6 +184,17 @@ export const templatePendingReview = pgTable("template_pending_review", {
   reviewNote: text("review_note"),
   reviewedBy: text("reviewed_by"),
   reviewedAt: timestamp("reviewed_at"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const templateMerchantWeight = pgTable("template_merchant_weight", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  templateId: uuid("template_id").notNull(),
+  merchantId: uuid("merchant_id").notNull(),
+  offset: decimal("offset").default("0"),
+  usageCount: integer("usage_count").default(0),
+  isEffective: boolean("is_effective").default(false),
+  updatedAt: timestamp("updated_at").defaultNow(),
   createdAt: timestamp("created_at").defaultNow(),
 });
 

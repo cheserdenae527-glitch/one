@@ -38,10 +38,22 @@ export type {
 // 工具层
 export { createToolRegistry, wrapContentGenerator, wrapPersonaGenerator } from "./tools";
 
-// 分析引擎
-export { analyzeTrendingPost } from "./analysis/content-analyzer";
-export { matchTrendToMerchant } from "./analysis/merchant-matcher";
-export type { TrendAnalysisResult, MerchantMatchedAnalysis } from "./analysis/types";
+ // 分析引擎
+ export { analyzeTrendingPost } from "./analysis/content-analyzer";
+ export { matchTrendToMerchant, matchContentToMerchant, rankTrendsForMerchant } from "./analysis/merchant-matcher";
+ export type { RankedTrendItem } from "./analysis/merchant-matcher";
+ export type {
+   TrendAnalysisResult,
+   MerchantMatchedAnalysis,
+   MatchDimensionBreakdown,
+   MerchantPlatformBindings,
+ } from "./analysis/types";
+ export {
+   PLATFORM_ALIAS,
+   CUISINE_GROUPS,
+   STAGE_CONTENT_PREFERENCES,
+   MATCH_DIMENSION_WEIGHTS,
+ } from "./analysis/types";
 
 // 权重系统
 export {
@@ -63,5 +75,23 @@ export type {
 export { recordPipelineExecution, recordWeightScore, getPipelineStats } from "./observability";
 export type { PipelineLogEntry, WeightScoreLogEntry } from "./observability";
 
+
+// 商家分类系统
+export { classifyMerchant, getScores } from "./classification/merchant-classifier";
+export { getStrategyTemplate, getAllStrategySummaries } from "./classification/strategy-templates";
+export type {
+  MerchantClassification,
+  ContentStrategyType,
+  ContentPillar,
+  PlatformSuggestion,
+  ClassificationInput,
+  ClassificationDetail,
+} from "./classification/types";
+export {
+  STRATEGY_LABELS,
+  STRATEGY_CUISINE_PREFERENCES,
+  STRATEGY_PRICE_PREFERENCES,
+} from "./classification/types";
 // JSON 安全解析（供各 LLM 调用点复用）
 export { safeParseLLMJson, safeParseLLMJsonOr, LLMParseError } from "./json-utils";
+

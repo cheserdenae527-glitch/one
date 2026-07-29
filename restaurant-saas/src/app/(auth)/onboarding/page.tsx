@@ -11,10 +11,12 @@ import { toast } from "sonner";
 
 export default function OnboardingPage() {
   const [step, setStep] = useState<"store" | "persona">("store");
+  const [storeData, setStoreData] = useState<StoreFormData | null>(null);
   const router = useRouter();
 
   function handleStoreSubmit(data: StoreFormData) {
     console.log("Store data:", data);
+    setStoreData(data);
     toast.success("店铺信息已保存");
     setStep("persona");
   }
@@ -36,9 +38,10 @@ export default function OnboardingPage() {
         {step === "store" ? (
           <StoreForm onSubmit={handleStoreSubmit} />
         ) : (
-          <PersonaSelector onSelect={handlePersonaSelect} />
+          <PersonaSelector onSelect={handlePersonaSelect} storeData={storeData} />
         )}
       </CardContent>
     </Card>
   );
 }
+

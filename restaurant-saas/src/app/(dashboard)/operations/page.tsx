@@ -1,121 +1,191 @@
 "use client";
 
+import { useState, useEffect, useMemo } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { classifyMerchant } from "@/lib/agent/classification/merchant-classifier";
+import { STRATEGY_LABELS, STORAGE_KEYS } from "@/lib/agent/classification/types";
+import { getStrategyTemplate } from "@/lib/agent/classification/strategy-templates";
+import type { ClassificationInput, ContentStrategyType, PlatformAccountConfig } from "@/lib/agent/classification/types";
+import type { MerchantClassification } from "@/lib/agent/classification/types";
+import { toast } from "sonner";
 
-const PLATFORMS = [
-  { id: "dianping", name: "大众点评", color: "from-orange-500 to-red-500", stage: "新建期" },
-  { id: "xiaohongshu", name: "小红书", color: "from-pink-500 to-purple-500", stage: "未开通" },
-  { id: "douyin", name: "抖音", color: "from-emerald-500 to-teal-500", stage: "未开通" },
-];
+type PlatformId = "dianping" | "xiaohongshu" | "douyin";
+type SetupMode = "recommending" | "manual" | "configuring" | "done";
 
-const WEEK = [
-  { day: "周一", type: "点评笔记", topic: "招牌毛肚推荐" },
-  { day: "周二", type: "小红书", topic: "环境氛围打卡" },
-  { day: "周三", type: "抖音", topic: "后厨纪实短片" },
-  { day: "周四", type: "评价回复", topic: "批量处理评价" },
-  { day: "周五", type: "小红书", topic: "新品预告" },
-];
+const DEMO: ClassificationInput = {
+  cuisineType: "火锅", priceRange: "80-120", targetCustomers: "年轻人、朋友聚餐",
+  hasDianping: false, hasXiaohongshu: false, hasDouyin: false, accountStage: "new", city: "成都",
+};
 
-const STAGE_TIPS = [
-  "发布首批 5 篇内容，建立店铺基础信息",
-  "回复所有历史评价，维护口碑",
-  "确定品牌人设和内容方向",
-];
+const PLATFORM_NAMES: Record<PlatformId, string> = {
+  dianping: "大众点评", xiaohongshu: "小红书", douyin: "抖音",
+};
+const PLATFORM_COLORS: Record<PlatformId, string> = {
+  dianping: "from-orange-500 to-red-500", xiaohongshu: "from-pink-500 to-purple-500", douyin: "from-emerald-500 to-teal-500",
+};
 
-const DIRECTIONS = [
-  { icon: "(hot)", title: "Tomato soup pot trending", desc: "Pair with signature tripe for a review", tag: "Trending" },
-  { icon: "(book)", title: "Shanghai must-eat hotpot trending up", desc: "Publish collection content showing dish comparison", tag: "Xiaohongshu" },
-];
+export default function Page() {
+  const [classification, setClassification] = useState<MerchantClassification | null>(null);
+  const [selectedType, setSelectedType] = useState<ContentStrategyType>("scene_experience");
+  const [setupMode, setSetupMode] = useState<SetupMode>("recommending");
+  const [selectedPlatforms, setSelectedPlatforms] = useState<PlatformId[]>([]);
+  const [accounts, setAccounts] = useState<PlatformAccountConfig[]>([]);
+  const [addingPlatform, setAddingPlatform] = useState<PlatformId | null>(null);
+  const [showPicker, setShowPicker] = useState(false);
+  const [expandedAccount, setExpandedAccount] = useState<string | null>(null);
 
-export default function OperationsPage() {
+  useEffect(() => {
+    const result = classifyMerchant(DEMO);
+    setClassification(result);
+    setSelectedType(result.primaryType);
+  }, []);
+
+  const template = useMemo(() => selectedType ? getStrategyTemplate(selectedType, DEMO.cuisineType, DEMO.city) : null, [selectedType]);
+  const priorities = template?.platformPriority || [];
+  const boundAccounts = accounts.filter(a => a.isBound);
+
+  function handleAccept() {
+    setSelectedPlatforms(priorities.map(p => p.platform));
+    setSetupMode("configuring");
+  }
+
+  function handleAdd(p: PlatformId) {
+    setAccounts(prev => [...prev, {
+      platform: p, accountName: "", accountUrl: "", followers: 0, isBound: false, isCustomized: false,
+    }]);
+    setAddingPlatform(null);
+  }
+
+  function updateAccount(p: PlatformId, field: string, val: any) {
+    setAccounts(prev => prev.map(a => (a.platform === p ? { ...a, [field]: val, isCustomized: true } : a)));
+  }
+
+  function handleBind(p: PlatformId) {
+    const a = accounts.find(x => x.platform === p);
+    if (!a || !a.accountName || !a.accountUrl) { toast.error("请填写"); return; }
+    setAccounts(prev => prev.map(x => (x.platform === p ? { ...x, isBound: true } : x)));
+    toast.success("已绑定");
+  }
+
   return (
     <div className="p-6 space-y-6 max-w-5xl">
       <h1 className="text-2xl font-bold tracking-tight">运营规划</h1>
-      <p className="text-sm text-muted-foreground -mt-4">管理多平台运营策略与内容排期</p>
+      <p className="text-sm text-muted-foreground -mt-4">管理运营策略与多平台账号</p>
 
-      <div className="grid grid-cols-3 gap-4">
-        {PLATFORMS.map((p) => (
-          <Card key={p.id} className="overflow-hidden">
-            <div className={"h-1.5 bg-gradient-to-r " + p.color} />
-            <CardContent className="p-4">
-              <div className="flex items-center gap-3 mb-3">
-                <div className={"w-9 h-9 rounded-full bg-gradient-to-br " + p.color + " flex items-center justify-center text-white text-xs font-bold"}>
-                  {p.id === "dianping" ? "D" : p.id === "xiaohongshu" ? "S" : "D2"}
-                </div>
-                <div className="flex-1">
-                  <div className="font-semibold text-sm">{p.name}</div>
-                  <div className="text-xs text-muted-foreground">{p.stage}</div>
-                </div>
-                <Button size="sm" variant="default" className="text-xs h-8">去创建</Button>
-              </div>
-              <div className="flex gap-3 text-xs text-muted-foreground pt-2 border-t">
-                <span>内容 0 篇</span>
-                <span>粉丝 0</span>
-                <span>未绑定</span>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-
-      <div className="grid grid-cols-3 gap-4">
-        <Card className="col-span-2">
-          <CardContent className="p-4">
-            <h2 className="font-semibold text-sm mb-4">本周内容计划</h2>
-            <div className="grid grid-cols-5 gap-2">
-              {WEEK.map((w) => (
-                <div key={w.day} className="text-center p-2.5 bg-muted/30 rounded-lg">
-                  <div className="text-xs text-muted-foreground mb-1.5">{w.day}</div>
-                  <div className="text-[10px] font-medium bg-amber-50 text-amber-700 rounded px-1.5 py-0.5">{w.type}</div>
-                  <div className="text-[10px] text-muted-foreground mt-1">{w.topic}</div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-4">
-            <h2 className="font-semibold text-sm mb-3">账号阶段</h2>
-            <div className="bg-muted/30 rounded-lg p-3">
-              <div className="flex items-center gap-2 mb-2">
-                <span className="text-[10px] font-medium bg-amber-100 text-amber-700 px-2 py-0.5 rounded">新建期</span>
-                <span className="text-xs text-muted-foreground">第 1 周</span>
-              </div>
-              <div className="w-full h-1.5 bg-muted rounded-full mb-3">
-                <div className="w-[15%] h-full bg-amber-400 rounded-full" />
-              </div>
-              <div className="space-y-1.5 text-xs text-muted-foreground">
-                {STAGE_TIPS.map((tip, i) => (
-                  <div key={i} className="flex items-center gap-2">
-                    <div className="w-1 h-1 rounded-full bg-amber-400 flex-shrink-0" />
-                    <span>{tip}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      <Card>
-        <CardContent className="p-4">
-          <h2 className="font-semibold text-sm mb-3">创作方向建议</h2>
-          <div className="grid grid-cols-2 gap-3">
-            {DIRECTIONS.map((d, i) => (
-              <div key={i} className="flex gap-3 p-3 bg-muted/20 rounded-lg">
-                <span className="flex-shrink-0 text-xs font-bold bg-muted px-2 py-1 rounded">{d.icon}</span>
-                <div>
-                  <span className="text-[10px] font-medium bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded">{d.tag}</span>
-                  <div className="text-sm font-medium mt-1">{d.title}</div>
-                  <div className="text-xs text-muted-foreground mt-0.5">{d.desc}</div>
-                </div>
-              </div>
+      {/* Strategy diagnosis */}
+      <Card><CardContent className="p-4">
+        <div className="flex items-center justify-between mb-3">
+          <h2 className="font-semibold text-sm">战略诊断</h2>
+          <Button size="sm" variant="outline" className="text-xs h-7" onClick={() => setShowPicker(!showPicker)}>更换</Button>
+        </div>
+        <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg p-3">
+          <span className="text-sm font-bold">{STRATEGY_LABELS[selectedType]}</span>
+          {template && <p className="text-xs text-muted-foreground mt-1">{template.oneLinePositioning}</p>}
+        </div>
+        {showPicker && classification?.details && (
+          <div className="grid grid-cols-2 gap-2 mt-3">
+            {classification.details.map((d: any) => (
+              <Card key={d.type} className={"p-2 cursor-pointer " + (selectedType === d.type ? "ring-2 ring-primary" : "")}
+                onClick={() => { setSelectedType(d.type); setShowPicker(false); }}>
+                <p className="text-xs font-medium">{d.label}</p>
+                <p className="text-[10px] text-muted-foreground">{d.score}分</p>
+              </Card>
             ))}
           </div>
-        </CardContent>
-      </Card>
+        )}
+      </CardContent></Card>
+
+      {/* Platform creation */}
+      <Card><CardContent className="p-4">
+        <h2 className="font-semibold text-sm mb-2">平台创建</h2>
+
+        {setupMode === "recommending" && (
+          <div className="flex gap-2">
+            <Button size="sm" className="text-xs" onClick={handleAccept}>接受推荐</Button>
+            <Button size="sm" variant="outline" className="text-xs" onClick={() => setAddingPlatform("dianping")}>+ 添加账号</Button>
+          </div>
+        )}
+
+        {addingPlatform && (
+          <div className="flex gap-2 mt-2">
+            {(["dianping", "xiaohongshu", "douyin"] as PlatformId[]).map(p => (
+              <Button key={p} size="sm" variant="outline" className="text-xs" onClick={() => handleAdd(p)}>{PLATFORM_NAMES[p]}</Button>
+            ))}
+          </div>
+        )}
+
+        {setupMode === "configuring" && !addingPlatform && selectedPlatforms.filter(p => !accounts.find(a => a.platform === p)?.isBound).map(p => {
+          const a = accounts.find(x => x.platform === p) || {platform: p, accountName: "", accountUrl: "", followers: 0, isBound: false, isCustomized: false};
+          return (
+            <div key={p} className="mt-2 p-2 border rounded space-y-1">
+              <p className="text-xs font-medium">{PLATFORM_NAMES[p]}</p>
+              <input className="flex h-7 w-full rounded border px-2 text-xs" value={a.accountName}
+                onChange={e => updateAccount(p, "accountName", e.target.value)} placeholder="账号名称" />
+              <input className="flex h-7 w-full rounded border px-2 text-xs" value={a.accountUrl}
+                onChange={e => updateAccount(p, "accountUrl", e.target.value)} placeholder="账号链接" />
+              <Button size="sm" className="w-full text-xs" onClick={() => handleBind(p)}>绑定</Button>
+            </div>
+          );
+        })}
+      </CardContent></Card>
+
+      {/* Bound accounts */}
+      {boundAccounts.length > 0 && (
+        <div className="grid grid-cols-3 gap-4">
+          {boundAccounts.map(a => (
+            <Card key={a.platform} className="overflow-hidden cursor-pointer"
+              onClick={() => setExpandedAccount(expandedAccount === a.platform ? null : a.platform)}>
+              <CardContent className="p-3">
+                <p className="text-sm font-semibold">{PLATFORM_NAMES[a.platform]}</p>
+                <p className="text-xs text-muted-foreground">{a.accountName}</p>
+                {expandedAccount === a.platform && template && (
+                  <div className="mt-3 pt-3 border-t space-y-2 bg-blue-50 rounded-lg p-3">
+                    <p className="text-[10px] font-medium text-blue-700 mb-1">账号详情</p>
+                    <p className="text-xs font-semibold">{STRATEGY_LABELS[selectedType]}</p>
+                    <p className="text-[10px] text-muted-foreground">{template.oneLinePositioning}</p>
+                    <p className="text-[10px] font-medium text-muted-foreground mt-2">人设</p>
+                    <p className="text-xs font-medium">{template.recommendedPersona.position}</p>
+                    <p className="text-[10px] text-muted-foreground">{template.recommendedPersona.tone}</p>
+                    <div className="flex flex-wrap gap-1 mt-1">
+                      {template.recommendedPersona.personality.slice(0, 3).map((t: string, i: number) => (
+                        <span key={i} className="text-[9px] bg-white/60 px-1.5 py-0.5 rounded">{t}</span>
+                      ))}
+                    </div>
+                    <p className="text-[10px] font-medium text-muted-foreground mt-2">内容栏目</p>
+                    <div className="grid grid-cols-2 gap-1 mt-1">
+                      {template.contentPillars.map((p: any, i: number) => (
+                        <div key={i} className="bg-white/60 px-1.5 py-1 rounded text-[10px]">
+                          <span className="font-medium">{p.name}</span> {Math.round(p.ratio * 100)}%
+                        </div>
+                      ))}
+                    </div>
+                    <p className="text-[10px] font-medium text-muted-foreground mt-2">更新计划</p>
+                    <p className="text-[10px]">频率：建议每周 2-3 篇</p>
+                    <p className="text-[10px] text-muted-foreground">内容配比：60% 产品 + 40% 信任</p>
+                    <p className="text-[10px] font-medium text-muted-foreground mt-2">选题方向</p>
+                    {template.initialTopics.slice(0, 3).map((t: string, i: number) => (
+                      <div key={i} className="flex items-center gap-1 text-[10px]">
+                        <span className="w-3 h-3 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-[7px] font-bold">{i + 1}</span>
+                        <span>{t}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
+
+      {/* 30-day topics */}
+      {template && <Card><CardContent className="p-4">
+        <h2 className="font-semibold text-sm mb-3">30天选题方向</h2>
+        {template.initialTopics.slice(0, 5).map((t: string, i: number) => (
+          <p key={i} className="text-sm">{i+1}. {t}</p>
+        ))}
+      </CardContent></Card>}
     </div>
   );
 }

@@ -40,7 +40,24 @@
       "briefContent": "看到这个视频，你想到了谁？#烧烤#深夜放毒 #夜宵 #美食",
       "contentType": "video",
       "hotScore": 1,
-      "imageUrl": "https://p3-pc-sign.douyinpic.com/tos-cn-i-0813c000-ce/osAMeEGIDpWR8ExUwEfEAZAA8FnpAqEAGeU92z~tplv-dy-cropcenter:323:430.jpeg?biz_tag=pcweb_cover&from=327834062&lk3s=138a59ce&s=PackSourceEnum_SEARCH&sc=cover&se=true&sh=323_430&x-expires=2100229200&x-signature=XeLwn%2F1mcF9nE1d%2BZpiWmOAc8BY%3D"
+      "imageUrl": "https://p3-pc-sign.douyinpic.com/tos-cn-i-0813c000-ce/osAMeEGIDpWR8ExUwEfEAZAA8FnpAqEAGeU92z~tplv-dy-cropcenter:323:430.jpeg?biz_tag=pcweb_cover&from=327834062&lk3s=138a59ce&s=PackSourceEnum_SEARCH&sc=cover&se=true&sh=323_430&x-expires=2100229200&x-signature=XeLwn%2F1mcF9nE1d%2BZpiWmOAc8BY%3D",
+      "analysis": {
+        "writingStyle": "简洁直接，带有互动性和话题标签引导",
+        "hookType": "问题式",
+        "structure": [
+          "抛出问题引发共鸣",
+          "使用热门标签扩大传播"
+        ],
+        "toneTags": [
+          "亲切",
+          "互动",
+          "诱惑"
+        ],
+        "angleName": "好奇引流",
+        "formatName": "口播体",
+        "visualStyle": "短视频美食特写，夜间诱人画面",
+        "promptTemplate": "看到这个视频，你想到了谁？#烧烤#深夜放毒 #夜宵 #美食"
+      }
     },
     {
       "id": "douyin_1784870849082_3",

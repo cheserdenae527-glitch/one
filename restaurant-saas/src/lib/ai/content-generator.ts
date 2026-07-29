@@ -1,6 +1,7 @@
 import { callLLM } from "./client";
 import { CONTENT_TYPE_PROMPTS } from "./prompts";
 import { selectTemplates } from "./template-matcher";
+import { SEED_TEMPLATES } from "./template-seeds";
 
 const KEY_MAP: Record<string, string> = {
   dianping: "dianping_profile", xiaohongshu: "xiaohongshu_note",
@@ -40,6 +41,11 @@ export async function generateContent(params: any) {
   // Template engine integration
   const pid = params.contentType==="dianping"?"dianping":params.contentType==="xiaohongshu"?"xiaohongshu":params.contentType==="promotion"?"promotion":"douyin";
   const matchResult = selectTemplates({ cuisine: params.storeInfo?.cuisineType || "all", platform: pid, stage: params.stage || "early", personaTone: params.persona?.tone, recentAngles: [] });
+  // If a specific template was forced (from hot-content analyze), use it instead
+  if (params.forceTemplateId && SEED_TEMPLATES.some(t => t.id === params.forceTemplateId)) {
+    const forced = SEED_TEMPLATES.find(t => t.id === params.forceTemplateId);
+    if (forced) matchResult.selected = forced;
+  }
   if (matchResult.selected) {
     const t = matchResult.selected;
     prompt += "\\n\\n【\u6a21\u677f\u7ed3\u6784】";
@@ -51,6 +57,16 @@ export async function generateContent(params: any) {
   if (params.tone) prompt += "\\n\u8bed\u6c14\u98ce\u683c\uff1a" + params.tone;
   prompt += "\\n\u5b57\u6570\u8981\u6c42\uff1a" + (LEN_MAP[params.length || "medium"] || LEN_MAP.medium);
   if (params.referenceContent?.title) prompt += "\\n\u53c2\u8003\u4e3b\u9898\uff1a" + params.referenceContent.title;
+  if (params.referenceContent?.analysisFeatures) {
+    const af = params.referenceContent.analysisFeatures;
+    prompt += "\n\n【参考内容结构特征】";
+    if (af.writingStyle) prompt += "\n风格：" + af.writingStyle;
+    if (af.hookType) prompt += "\n钩子：" + af.hookType;
+    if (af.structure) prompt += "\n结构：" + af.structure.join(" → ");
+    if (af.toneTags) prompt += "\n语气：" + af.toneTags.join("/");
+    if (af.angleName) prompt += "\n切入角度：" + af.angleName;
+    if (af.formatName) prompt += "\n体裁：" + af.formatName;
+  }
   if (params.persona?.position) prompt += "\\n\u54c1\u724c\u5b9a\u4f4d\uff1a" + params.persona.position;
   prompt += "\\n\\n\u8bf7\u76f4\u63a5\u8f93\u51fa\u6587\u6848\uff0c\u4e0d\u8981\u5305\u542bJSON\u683c\u5f0f\u3002";
   return { content: await callLLM(prompt), templateId: matchResult.selected?.id || null };

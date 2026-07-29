@@ -1,0 +1,492 @@
+"use client";
+
+import { useState, useEffect, useMemo } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { classifyMerchant } from "@/lib/agent/classification/merchant-classifier";
+import { STRATEGY_LABELS, AUDIENCE_LABELS, STORAGE_KEYS, PLATFORM_NAMES } from "@/lib/agent/classification/types";
+import { getStrategyTemplate } from "@/lib/agent/classification/strategy-templates";
+import type { ClassificationInput, ContentStrategyType, ClassificationDetail, PlatformAccountConfig } from "@/lib/agent/classification/types";
+import type { MerchantClassification } from "@/lib/agent/classification/types";
+import { toast } from "sonner";
+
+type PlatformId = "dianping" | "xiaohongshu" | "douyin";
+type SetupMode = "recommending" | "manual" | "configuring" | "done";
+
+const DEFAULT_PLATFORMS: PlatformId[] = ["dianping", "xiaohongshu", "douyin"];
+
+function emptyAccount(p: PlatformId): PlatformAccountConfig {
+  return { platform: p, accountName: "", accountUrl: "", followers: 0, isBound: false, isCustomized: false };
+}
+
+export default function OperationsPage() {
+  // ── 商家数据 ──
+  const [storeInput, setStoreInput] = useState<ClassificationInput | null>(null);
+  const [classification, setClassification] = useState<MerchantClassification | null>(null);
+  const [selectedType, setSelectedType] = useState<ContentStrategyType>("scene_experience");
+  const [showStrategyPicker, setShowStrategyPicker] = useState(false);
+
+  // ── 平台账号 ──
+  const [accounts, setAccounts] = useState<PlatformAccountConfig[]>(DEFAULT_PLATFORMS.map(emptyAccount));
+  const [setupMode, setSetupMode] = useState<SetupMode>("recommending");
+  const [selectedPlatforms, setSelectedPlatforms] = useState<PlatformId[]>([]);
+  const [expandedAccount, setExpandedAccount] = useState<string | null>(null);
+  const [connectingPlatform, setConnectingPlatform] = useState<PlatformId | null>(null);
+  const [editingAccount, setEditingAccount] = useState<string | null>(null);
+
+  // 加载数据
+  const DEMO_INPUT: ClassificationInput = {
+  cuisineType: '火锅',
+  priceRange: '80-120',
+  targetCustomers: '年轻人、朋友聚餐',
+  hasDianping: false, hasXiaohongshu: false, hasDouyin: false,
+  accountStage: 'new' as const,
+  city: '成都',
+};
+
+  useEffect(() => {
+    // 读取商家信息
+    try {
+      const saved = localStorage.getItem(STORAGE_KEYS.STORE_INFO);
+      if (saved) {
+        const data = JSON.parse(saved);
+        const input: ClassificationInput = {
+          cuisineType: data.cuisineType || "火锅",
+          priceRange: data.priceRange || "80-120",
+          targetCustomers: data.targetCustomers || "",
+          hasDianping: Boolean(data.dianpingUrl),
+          hasXiaohongshu: Boolean(data.xiaohongshuUrl),
+          hasDouyin: Boolean(data.douyinUrl),
+          accountStage: data.globalStage || "new",
+          city: data.address?.match(/(.+?(?:市|区|县|城))/)?.[1] || "",
+        };
+        setStoreInput(input);
+        const result = classifyMerchant(input);
+        setClassification(result);
+        setSelectedType(result.primaryType);
+      }
+    } catch {}
+
+    // 读取已有平台账号
+    try {
+      const saved = localStorage.getItem(STORAGE_KEYS.PLATFORM_ACCOUNTS);
+      if (saved) {
+        const parsed: PlatformAccountConfig[] = JSON.parse(saved);
+        setAccounts(parsed);
+        if (parsed.some((a) => a.isBound)) {
+          setSetupMode("done");
+        }
+      }
+    } catch {}
+    // 如果没有保存的数据，用 demo 数据兜底
+    if (!storeInput) {
+      setStoreInput(DEMO_INPUT);
+      const result = classifyMerchant(DEMO_INPUT);
+      setClassification(result);
+      setSelectedType(result.primaryType);
+    }
+  }, []);
+
+  const preferredType = classification?.primaryType || "scene_experience";
+  const template = useMemo(
+    () => selectedType && storeInput
+      ? getStrategyTemplate(selectedType, storeInput.cuisineType, storeInput.city)
+      : null,
+    [selectedType, storeInput],
+  );
+  const platformPriorities = template?.platformPriority || [];
+
+  // ── 切换战略 ──
+  function handleSelectType(type: ContentStrategyType) {
+    setSelectedType(type);
+    setShowStrategyPicker(false);
+    localStorage.setItem(STORAGE_KEYS.SELECTED_STRATEGY, type);
+    // 清除非自定义的平台配置，让新的战略推荐生效
+    setAccounts((prev) =>
+      prev.map((a) => (a.isCustomized ? a : emptyAccount(a.platform))),
+    );
+    setSetupMode("recommending");
+    toast.success(`已切换至「${STRATEGY_LABELS[type]}」`);
+  }
+
+  // ── 平台操作 ──
+  function handleAcceptRecommendation() {
+    // 按优先级推荐平台
+    const recommended = platformPriorities.map((p) => p.platform);
+    setSelectedPlatforms(recommended);
+    setSetupMode("configuring");
+    // 预填充推荐的内容方向
+    setAccounts((prev) =>
+      prev.map((a) => {
+        const pp = platformPriorities.find((p) => p.platform === a.platform);
+        return { ...a, contentFocus: pp?.contentFocus || a.contentFocus };
+      }),
+    );
+  }
+
+  function handleManualSelect() {
+    setSetupMode("manual");
+  }
+
+  function handleSkip() {
+    setSetupMode("done");
+    toast.info("可在平台概览区随时创建账号");
+  }
+
+  function togglePlatform(p: PlatformId) {
+    setSelectedPlatforms((prev) =>
+      prev.includes(p) ? prev.filter((x) => x !== p) : [...prev, p],
+    );
+  }
+
+  function confirmManualSelection() {
+    if (selectedPlatforms.length === 0) {
+      toast.error("请至少选择一个平台");
+      return;
+    }
+    setSetupMode("configuring");
+  }
+
+  function updateAccount(platform: PlatformId, field: string, value: any) {
+    setAccounts((prev) =>
+      prev.map((a) => (a.platform === platform ? { ...a, [field]: value, isCustomized: true } : a)),
+    );
+  }
+
+  function handleBind(platform: PlatformId) {
+    const account = accounts.find((a) => a.platform === platform);
+    if (!account || !account.accountName || !account.accountUrl) {
+      toast.error("请填写账号名称和链接");
+      return;
+    }
+    const updated = accounts.map((a) =>
+      a.platform === platform ? { ...a, isBound: true } : a,
+    );
+    setAccounts(updated);
+    localStorage.setItem(STORAGE_KEYS.PLATFORM_ACCOUNTS, JSON.stringify(updated));
+
+    // 触发重算
+    if (storeInput) {
+      const bound = updated.filter((a) => a.isBound);
+      const result = classifyMerchant({
+        ...storeInput,
+        hasDianping: bound.some((a) => a.platform === "dianping"),
+        hasXiaohongshu: bound.some((a) => a.platform === "xiaohongshu"),
+        hasDouyin: bound.some((a) => a.platform === "douyin"),
+        accountStage: storeInput.accountStage,
+      });
+      setClassification(result);
+      localStorage.setItem(STORAGE_KEYS.CLASSIFICATION_CACHE, JSON.stringify(result));
+    }
+
+    toast.success(`${PLATFORM_NAMES[platform]}账号已绑定`);
+  }
+
+  const boundAccounts = accounts.filter((a) => a.isBound);
+  const isAllBound = boundAccounts.length === DEFAULT_PLATFORMS.length;
+
+  const PLATFORM_META: Record<PlatformId, { name: string; color: string; icon: string }> = {
+    dianping: { name: "大众点评", color: "from-orange-500 to-red-500", icon: "D" },
+    xiaohongshu: { name: "小红书", color: "from-pink-500 to-purple-500", icon: "S" },
+    douyin: { name: "抖音", color: "from-emerald-500 to-teal-500", icon: "D2" },
+  };
+
+  return (
+    <div className="p-6 space-y-6 max-w-5xl">
+      <h1 className="text-2xl font-bold tracking-tight">运营规划</h1>
+      <p className="text-sm text-muted-foreground -mt-4">管理运营策略与多平台账号</p>
+
+      {/*** 1. 战略诊断 ***/}
+      <Card>
+        <CardContent className="p-4">
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="font-semibold text-sm flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-blue-400" />
+              战略诊断
+            </h2>
+            <Button size="sm" variant="outline" className="text-xs h-7" onClick={() => setShowStrategyPicker(!showStrategyPicker)}>
+              {showStrategyPicker ? "收起" : "更换"}
+            </Button>
+          </div>
+
+          <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg p-3 mb-3">
+            <div className="flex items-center gap-2 mb-1">
+              <span className="text-[10px] font-medium bg-blue-200 text-blue-700 px-2 py-0.5 rounded-full">当前战略</span>
+              <span className="text-sm font-bold">{selectedType ? STRATEGY_LABELS[selectedType] : ""}</span>
+              {selectedType === preferredType && (
+                <span className="text-[10px] bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded">推荐</span>
+              )}
+            </div>
+            {template && <p className="text-xs text-muted-foreground leading-relaxed">{template.oneLinePositioning}</p>}
+          </div>
+
+          {showStrategyPicker && classification?.details && (
+            <div className="grid grid-cols-2 gap-2">
+              {classification.details
+                .filter((d) => d.score > 0)
+                .map((d: ClassificationDetail) => (
+                  <Card key={d.type} className={`p-2.5 cursor-pointer transition-all ${selectedType === d.type ? "ring-2 ring-primary" : "hover:bg-muted/50"}`}
+                    onClick={() => handleSelectType(d.type)}>
+                    <div className="flex items-center justify-between mb-0.5">
+                      <span className="text-xs font-medium">{d.label}</span>
+                      <span className="text-[10px] font-mono text-muted-foreground">{d.score}分</span>
+                    </div>
+                    <div className="flex flex-wrap gap-0.5">
+                      {d.matchedReasons.slice(0, 2).map((r, i) => (
+                        <span key={i} className="text-[9px] bg-muted px-1 py-0.5 rounded text-muted-foreground">{r}</span>
+                      ))}
+                    </div>
+                  </Card>
+                ))}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {/*** 2. 平台创建 ***/}
+      <Card>
+        <CardContent className="p-4">
+          <h2 className="font-semibold text-sm flex items-center gap-2 mb-2">
+            <span className="w-2 h-2 rounded-full bg-green-400" />
+            平台创建
+          </h2>
+          <p className="text-xs text-muted-foreground mb-3">
+            根据「{STRATEGY_LABELS[selectedType]}」战略方向
+          </p>
+
+          {/* 推荐/选择/跳过 */}
+          {setupMode === "recommending" && !isAllBound && (
+            <div className="bg-muted/20 rounded-lg p-3 mb-3">
+              <p className="text-xs font-medium mb-2">建议优先创建以下平台：</p>
+              <div className="flex flex-wrap gap-2 mb-3">
+                {platformPriorities.sort((a, b) => a.priority - b.priority).map((pp) => (
+                  <span key={pp.platform} className="text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded">
+                    {PLATFORM_META[pp.platform].name} · 第{pp.priority}优先
+                  </span>
+                ))}
+              </div>
+              <div className="flex gap-2">
+                <Button size="sm" className="text-xs" onClick={handleAcceptRecommendation}>接受推荐</Button>
+                <Button size="sm" variant="outline" className="text-xs" onClick={handleManualSelect}>手动选择</Button>
+                <Button size="sm" variant="ghost" className="text-xs text-muted-foreground" onClick={handleSkip}>跳过</Button>
+              </div>
+            </div>
+          )}
+
+          {/* 手动选择平台 */}
+          {setupMode === "manual" && (
+            <div className="bg-muted/20 rounded-lg p-3 mb-3">
+              <p className="text-xs font-medium mb-2">选择要开通的平台：</p>
+              <div className="flex flex-wrap gap-2 mb-3">
+                {DEFAULT_PLATFORMS.map((p) => (
+                  <button key={p} onClick={() => togglePlatform(p)}
+                    className={`px-3 py-1.5 rounded-lg text-xs border transition-all ${
+                      selectedPlatforms.includes(p)
+                        ? "bg-primary text-primary-foreground border-primary"
+                        : "bg-background hover:bg-muted/50"
+                    }`}>
+                    {PLATFORM_META[p].name}
+                  </button>
+                ))}
+              </div>
+              <div className="flex gap-2">
+                <Button size="sm" className="text-xs" onClick={confirmManualSelection}>确定，去配置</Button>
+                <Button size="sm" variant="ghost" className="text-xs" onClick={() => setSetupMode("recommending")}>返回推荐</Button>
+              </div>
+            </div>
+          )}
+
+          {/* 平台配置表单 */}
+          {setupMode === "configuring" && (
+            <div className="grid grid-cols-3 gap-3">
+              {(selectedPlatforms.length > 0 ? selectedPlatforms : platformPriorities.map((p) => p.platform))
+                .map((pid) => {
+                  const meta = PLATFORM_META[pid];
+                  const account = accounts.find((a) => a.platform === pid)!;
+                  const pp = platformPriorities.find((p) => p.platform === pid);
+                  return (
+                    <Card key={pid} className="overflow-hidden">
+                      <div className={"h-1 bg-gradient-to-r " + meta.color} />
+                      <CardContent className="p-3">
+                        <div className="flex items-center gap-2 mb-2">
+                          <div className={"w-7 h-7 rounded-full bg-gradient-to-br " + meta.color + " flex items-center justify-center text-white text-[10px] font-bold shrink-0"}>
+                            {meta.icon}
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="font-semibold text-xs">{meta.name}</div>
+                            <div className="text-[10px] text-muted-foreground">
+                              {pp ? `优先级${pp.priority}` : ""} · {pp?.contentFocus || ""}
+                            </div>
+                          </div>
+                        </div>
+
+                        {account.isBound ? (
+                          <div className="text-[11px] text-green-600 bg-green-50 px-2 py-1 rounded">✓ 已绑定 {account.accountName}</div>
+                        ) : (
+                          <div className="space-y-1.5">
+                            <Input placeholder="账号名称" className="h-7 text-xs" value={account.accountName}
+                              onChange={(e) => updateAccount(pid, "accountName", e.target.value)} />
+                            <Input placeholder="账号链接" className="h-7 text-xs" value={account.accountUrl}
+                              onChange={(e) => updateAccount(pid, "accountUrl", e.target.value)} />
+                            <div className="flex gap-1.5">
+                              <Input placeholder="粉丝数" type="number" className="h-7 text-xs flex-1" value={account.followers || ""}
+                                onChange={(e) => updateAccount(pid, "followers", parseInt(e.target.value) || 0)} />
+                              <select className="h-7 text-[10px] rounded border px-1" value={account.platformStage || "new"}
+                                onChange={(e) => updateAccount(pid, "platformStage", e.target.value)}>
+                                <option value="new">新建</option>
+                                <option value="growing">成长</option>
+                                <option value="mature">成熟</option>
+                              </select>
+                            </div>
+                            <Button size="sm" className="w-full text-xs h-7" onClick={() => handleBind(pid)}>绑定账号</Button>
+                          </div>
+                        )}
+                      </CardContent>
+                    </Card>
+                  );
+                })}
+            </div>
+          )}
+
+          {/* 已全部绑定 */}
+          {setupMode === "done" && !isAllBound && (
+            <div className="grid grid-cols-3 gap-3">
+              {DEFAULT_PLATFORMS.map((pid) => {
+                const meta = PLATFORM_META[pid];
+                const account = accounts.find((a) => a.platform === pid)!;
+                return (
+                  <Card key={pid} className="overflow-hidden">
+                    <div className={"h-1 bg-gradient-to-r " + meta.color} />
+                    <CardContent className="p-3">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className={"w-7 h-7 rounded-full bg-gradient-to-br " + meta.color + " flex items-center justify-center text-white text-[10px] font-bold shrink-0"}>
+                          {meta.icon}
+                        </div>
+                        <div className="flex-1">
+                          <div className="font-semibold text-xs">{meta.name}</div>
+                          <div className="text-[10px] text-muted-foreground">
+                            {account.isBound ? account.accountName : "未开通"}
+                          </div>
+                        </div>
+                      </div>
+                      {!account.isBound && (
+                        <Button size="sm" variant="outline" className="w-full text-xs h-7"
+                          onClick={() => { setSetupMode("configuring"); setSelectedPlatforms([pid]); }}>
+                          去创建
+                        </Button>
+                      )}
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {/*** 3. 平台概览（已绑定的账号）***/}
+      {boundAccounts.length > 0 && (
+        <div className="grid grid-cols-3 gap-4">
+          {boundAccounts.map((account) => {
+            const meta = PLATFORM_META[account.platform];
+            const pp = platformPriorities.find((p) => p.platform === account.platform);
+            const isExpanded = expandedAccount === account.platform;
+            const isEditing = editingAccount === account.platform;
+            return (
+              <Card key={account.platform}
+                className={"overflow-hidden cursor-pointer transition-all " + (isExpanded ? "ring-1 ring-primary" : "hover:ring-1 hover:ring-muted")}
+                onClick={() => setExpandedAccount(isExpanded ? null : account.platform)}>
+                <div className={"h-1.5 bg-gradient-to-r " + meta.color} />
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className={"w-9 h-9 rounded-full bg-gradient-to-br " + meta.color + " flex items-center justify-center text-white text-xs font-bold shrink-0"}>
+                      {meta.icon}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="font-semibold text-sm">{meta.name}</div>
+                      <div className="text-xs text-muted-foreground">{account.accountName}</div>
+                    </div>
+                    <button className={"text-[18px] text-muted-foreground transition-transform " + (isExpanded ? "rotate-180" : "")}>
+                      {"▼"}
+                    </button>
+                  </div>
+                  <div className="flex gap-3 text-xs text-muted-foreground pt-2 border-t">
+                    <span>{account.platformStage === "new" ? "新建期" : account.platformStage === "growing" ? "成长期" : "成熟期"}</span>
+                    <span>{account.followers ? account.followers + " 粉丝" : ""}</span>
+                    <span>{pp ? "战略推荐" : ""}</span>
+                  </div>
+
+                  {/* Expansion panel */}
+                  {isExpanded && template && (
+                    <div className="mt-3 pt-3 border-t space-y-3">
+                      <div className="bg-blue-50 rounded-lg p-3">
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="text-[10px] font-medium bg-blue-200 text-blue-700 px-2 py-0.5 rounded-full">账号战略</span>
+                          <span className="text-xs font-medium">{STRATEGY_LABELS[selectedType]}</span>
+                          <span className="text-[9px] text-muted-foreground">（继承全局）</span>
+                        </div>
+
+                        {/* 人设 */}
+                        <div className="mb-2">
+                          <p className="text-[10px] font-medium text-muted-foreground mb-0.5">人设</p>
+                          <p className="text-xs font-semibold">{template.recommendedPersona.position}</p>
+                          <p className="text-[10px] text-muted-foreground">{template.recommendedPersona.tone}</p>
+                          <div className="flex flex-wrap gap-1 mt-0.5">
+                            {template.recommendedPersona.personality.slice(0, 3).map((t, i) => (
+                              <span key={i} className="text-[9px] bg-white/60 px-1.5 py-0.5 rounded">{t}</span>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* 内容栏目 */}
+                        <div className="mb-2">
+                          <p className="text-[10px] font-medium text-muted-foreground mb-0.5">内容栏目</p>
+                          <div className="grid grid-cols-2 gap-1">
+                            {template.contentPillars.map((p, i) => (
+                              <div key={i} className="bg-white/60 px-1.5 py-1 rounded text-[10px]">
+                                <span className="font-medium">{p.name}</span>
+                                <span className="text-muted-foreground"> {Math.round(p.ratio * 100)}%</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* 更新计划 */}
+                        <div className="mb-2">
+                          <p className="text-[10px] font-medium text-muted-foreground mb-0.5">更新计划</p>
+                          <p className="text-[10px]">频率：建议每周 2-3 篇</p>
+                          <p className="text-[10px] text-muted-foreground">内容配比：60% 产品 + 40% 信任内容</p>
+                        </div>
+
+                        {/* 选题方向 */}
+                        <div>
+                          <p className="text-[10px] font-medium text-muted-foreground mb-0.5">选题方向</p>
+                          <div className="space-y-0.5">
+                            {template.initialTopics.slice(0, 3).map((topic, i) => (
+                              <div key={i} className="flex items-center gap-1 text-[10px]">
+                                <span className="w-3 h-3 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-[7px] font-bold shrink-0">{i + 1}</span>
+                                <span>{topic}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
+          {/* Add account */}
+          <Card className="border-dashed border-2 cursor-pointer hover:bg-muted/20 transition-all"
+            onClick={() => setConnectingPlatform("dianping")}>
+            <CardContent className="p-4 flex flex-col items-center justify-center min-h-[80px]">
+              <span className="text-[24px] text-muted-foreground">+</span>
+              <span className="text-[11px] text-muted-foreground mt-1">添加账号</span>
+            </CardContent>
+          </Card>
+        </div>
+      )   </div>
+      )

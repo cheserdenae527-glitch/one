@@ -32,12 +32,14 @@ function AgentLauncher() {
 
 function AgentChat() {
   const { closeAgent, pendingPrefill, consumePrefill } = useAgent();
-  const [messages, setMessages] = useState<Message[]>([
-    { id: "loading", role: "agent", content: "正在分析你的店铺数据..." },
-  ]);
+  const [messages, setMessages] = useState<Message[]>(() => {
+    if (pendingPrefill) return [];
+    return [{ id: "loading", role: "agent", content: "正在分析你的店铺数据..." }];
+  });
   const [inputValue, setInputValue] = useState("");
   const [sending, setSending] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const prefillConsumed = useRef(false);
   const router = useRouter();
 
   // Daily suggestion on first load
@@ -45,6 +47,7 @@ function AgentChat() {
     fetch("/api/agent/suggestion")
       .then(res => res.json())
       .then(data => {
+        if (prefillConsumed.current) return;
         if (data.suggestion) {
           const s = data.suggestion.suggestion;
           setMessages([{
@@ -63,6 +66,7 @@ function AgentChat() {
         }
       })
       .catch(() => {
+        if (prefillConsumed.current) return;
         setMessages([{
           id: "offline",
           role: "agent",
@@ -78,6 +82,7 @@ function AgentChat() {
     if (!pendingPrefill) return;
     const prefill = consumePrefill();
     if (!prefill) return;
+    prefillConsumed.current = true;
     const userMsg: Message = { id: Date.now().toString(), role: "user", content: prefill };
     const loadingId = `${Date.now()}-loading`;
     setMessages(prev => [...prev, userMsg, { id: loadingId, role: "agent", content: "正在分析..." }]);
