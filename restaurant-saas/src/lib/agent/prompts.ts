@@ -188,13 +188,15 @@ ${toolLines}
  *
  * tools 参数可选：不传时（比如快捷操作场景不需要自由对话）就是纯文本
  * 客服 prompt；传了工具列表时，会额外注入"什么时候该调工具"的引导。
+ * * * @param skillBlock - Skill 增强指令块（可选），由 src/lib/skills.ts 的 buildSkillSystemPrompt 生成
  */
-export function buildAgentSystemPrompt(context: AgentContext, tools: AgentTool[] = []): string {
+export function buildAgentSystemPrompt(context: AgentContext, tools: AgentTool[] = [], skillBlock = ""): string {
   return [
     AGENT_SYSTEM_PROMPT_BASE,
     formatStoreInfoBlock(context),
     formatSuppressedPreferencesBlock(context),
     formatToolsBlock(tools),
+    skillBlock,
   ]
     .filter(Boolean)
     .join("\n\n");

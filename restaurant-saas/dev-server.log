@@ -7,228 +7,203 @@
   - Environments: .env.local, .env
 
  鉁?Starting...
- 鉁?Ready in 4.1s
- 鉁?Compiled /src/middleware in 416ms (128 modules)
+ 鉁?Ready in 2.6s
+ 鉁?Compiled /src/middleware in 260ms (128 modules)
  鈼?Compiling /sign-in ...
-node.exe : <w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (106kiB) impacts deserialization performan
-ce (consider using Buffer instead and decode when needed)
+ 鉁?Compiled /sign-in in 1740ms (715 modules)
+ GET /sign-in 200 in 2141ms
+ 鉁?Compiled in 405ms (350 modules)
+ 鉁?Compiled in 78ms (336 modules)
+ 鉁?Compiled /operations in 499ms (715 modules)
+ GET /operations 200 in 671ms
+ 鉁?Compiled /favicon.ico in 126ms (375 modules)
+ GET /favicon.ico 200 in 190ms
+ 鉁?Compiled /api/hot-content in 84ms (404 modules)
+ GET /api/hot-content?platform=all&cuisine=all&city=%E5%85%A8%E5%9B%BD&preferAnalyzed=true&limit=30 200 in 151ms
+ GET /api/hot-content?platform=all&cuisine=all&city=%E5%85%A8%E5%9B%BD&preferAnalyzed=true&limit=30 200 in 18ms
+ 鉁?Compiled in 563ms (735 modules)
+ 鉁?Compiled /sign-in in 259ms (411 modules)
+ GET /sign-in 200 in 515ms
+ 鉁?Compiled in 522ms (849 modules)
+node.exe : <w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: EPERM: operation not permitted, re
+name 'C:\Users\29842\Documents\鎸囧\restaurant-saas\.next\cache\webpack\server-development\11.pack.gz_' -> 'C:\Users\298
+42\Documents\鎸囧\restaurant-saas\.next\cache\webpack\server-development\11.pack.gz'
 所在位置 行:1 字符: 1
 + & "C:\Program Files\nodejs/node.exe" "C:\Program Files\nodejs/node_mo ...
 + ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    + CategoryInfo          : NotSpecified: (<w> [webpack.ca...de when needed):String) [], RemoteException
+    + CategoryInfo          : NotSpecified: (<w> [webpack.ca...ent\11.pack.gz':String) [], RemoteException
     + FullyQualifiedErrorId : NativeCommandError
  
-<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (254kiB) impacts deserialization performance (conside
-r using Buffer instead and decode when needed)
- 鉁?Compiled /sign-in in 5.8s (724 modules)
- GET /sign-in 200 in 6329ms
- 鉁?Compiled in 555ms (350 modules)
- 鈼?Compiling / ...
- 鉁?Compiled / in 1855ms (708 modules)
- GET / 307 in 2152ms
- 鈼?Compiling /operations ...
- 鉁?Compiled /operations in 962ms (781 modules)
- GET /operations 200 in 1158ms
- 鉁?Compiled /api/hot-content in 289ms (444 modules)
- GET /api/hot-content?platform=all&cuisine=all&city=%E5%85%A8%E5%9B%BD&preferAnalyzed=true&limit=30 200 in 456ms
- GET /api/hot-content?platform=all&cuisine=all&city=%E5%85%A8%E5%9B%BD&preferAnalyzed=true&limit=30 200 in 36ms
- 鉁?Compiled /settings in 354ms (819 modules)
- GET /sign-in 200 in 139ms
- GET /operations 200 in 104ms
- GET /api/hot-content?platform=all&cuisine=all&city=%E5%85%A8%E5%9B%BD&preferAnalyzed=true&limit=30 200 in 123ms
- GET /api/hot-content?platform=all&cuisine=all&city=%E5%85%A8%E5%9B%BD&preferAnalyzed=true&limit=30 200 in 30ms
- GET /operations 200 in 68ms
- GET /api/hot-content?platform=all&cuisine=all&city=%E5%85%A8%E5%9B%BD&preferAnalyzed=true&limit=30 200 in 38ms
- GET /api/hot-content?platform=all&cuisine=all&city=%E5%85%A8%E5%9B%BD&preferAnalyzed=true&limit=30 200 in 38ms
- 鉁?Compiled in 723ms (800 modules)
- GET /sign-in 200 in 106ms
- 鉁?Compiled in 616ms (800 modules)
- 鉁?Compiled in 336ms (800 modules)
- 鉁?Compiled in 337ms (800 modules)
- GET /operations 200 in 130ms
- 鉁?Compiled /api/hot-content in 413ms (444 modules)
- GET /api/hot-content?platform=all&cuisine=all&city=%E5%85%A8%E5%9B%BD&preferAnalyzed=true&limit=30 200 in 528ms
- GET /api/hot-content?platform=all&cuisine=all&city=%E5%85%A8%E5%9B%BD&preferAnalyzed=true&limit=30 200 in 24ms
- 鈼?Compiling /content ...
- 鉁?Compiled /content in 505ms (856 modules)
- 鉁?Compiled /_not-found in 205ms (845 modules)
- 鈿?Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
- GET /_next/static/webpack/d8d68830a57bd82c.webpack.hot-update.json 404 in 319ms
- GET /operations 200 in 94ms
- GET /api/hot-content?platform=all&cuisine=all&city=%E5%85%A8%E5%9B%BD&preferAnalyzed=true&limit=30 200 in 38ms
- GET /api/hot-content?platform=all&cuisine=all&city=%E5%85%A8%E5%9B%BD&preferAnalyzed=true&limit=30 200 in 23ms
- 鈼?Compiling /api/agent/suggestion ...
- 鉁?Compiled /api/agent/suggestion in 1235ms (683 modules)
- GET /api/agent/suggestion 200 in 2311ms
- GET /api/agent/suggestion 200 in 22ms
- 猕?./src/app/(dashboard)/operations/page.tsx
+ 鉁?Compiled in 211ms (389 modules)
+ 鉁?Compiled in 255ms (735 modules)
+ 猕?./src/components/agent/agent-panel.tsx
 Error: 
-  [31mx[0m Expected ';', '}' or <eof>
-    ,-[[36;1;4mC:\Users\29842\Documents\鎸囧\restaurant-saas\src\app\(dashboard)\operations\page.tsx[0m:48:1]
- [2m48[0m |           const saved = localStorage.getItem(STORAGE_KEYS.STORE_INFO);
- [2m49[0m |           if (saved) {
- [2m50[0m |             const data = JSON.parse(saved);
- [2m51[0m | [31;1m,[0m[31;1m-[0m[31;1m>[0m           cuisineType: data.cuisineType || "鐏攨",
- [2m52[0m | [31;1m|[0m[31;1m-[0m[31;1m>[0m           priceRange: data.priceRange || "80-120",
-    : [31;1m`[0m[31;1m---[0m[33;1m                    ^[0m
-    : [31;1m`[0m[31;1m---[0m[31;1m-[0m [31;1mThis is the expression part of an expression statement[0m
- [2m53[0m |               targetCustomers: data.targetCustomers || "",
- [2m54[0m |               hasDianping: false,
- [2m54[0m |               hasXiaohongshu: false,
+  [31mx[0m the name `closeAgent` is defined multiple times
+    ,-[[36;1;4mC:\Users\29842\Documents\鎸囧\restaurant-saas\src\components\agent\agent-panel.tsx[0m:32:1]
+ [2m32[0m | }
+ [2m33[0m | 
+ [2m34[0m | function AgentChat() {
+ [2m35[0m |   const { closeAgent, pendingPrefill, consumePrefill } = useAgent();
+    : [31;1m          ^^^^^|^^^^[0m
+    :                [31;1m`-- [31;1mprevious definition of `closeAgent` here[0m[0m
+ [2m36[0m |   const [showAgentMenu, setShowAgentMenu] = useState(false);
+ [2m37[0m |   const [showSkillMenu, setShowSkillMenu] = useState(false);
+ [2m38[0m |   const { closeAgent, pendingPrefill, consumePrefill, selectedSkill, setSelectedSkill, selectedAgentId, s
+etSelectedAgentId, availableSkills, setAvailableSkills } = useAgent();
+    : [33;1m          ^^^^^|^^^^[0m
+    :                [33;1m`-- [33;1m`closeAgent` redefined here[0m[0m
+ [2m39[0m |   const [messages, setMessages] = useState<Message[]>(() => {
+ [2m40[0m |     if (pendingPrefill) return [];
+ [2m40[0m |     return [{ id: "loading", role: "agent", content: "姝ｅ湪鍒嗘瀽浣犵殑搴楅摵鏁版嵁..." }];
+    `----
+
+  [31mx[0m the name `pendingPrefill` is defined multiple times
+    ,-[[36;1;4mC:\Users\29842\Documents\鎸囧\restaurant-saas\src\components\agent\agent-panel.tsx[0m:32:1]
+ [2m32[0m | }
+ [2m33[0m | 
+ [2m34[0m | function AgentChat() {
+ [2m35[0m |   const { closeAgent, pendingPrefill, consumePrefill } = useAgent();
+    : [31;1m                      ^^^^^^^|^^^^^^[0m
+    :                              [31;1m`-- [31;1mprevious definition of `pendingPrefill` here[0m[0m
+ [2m36[0m |   const [showAgentMenu, setShowAgentMenu] = useState(false);
+ [2m37[0m |   const [showSkillMenu, setShowSkillMenu] = useState(false);
+ [2m38[0m |   const { closeAgent, pendingPrefill, consumePrefill, selectedSkill, setSelectedSkill, selectedAgentId, s
+etSelectedAgentId, availableSkills, setAvailableSkills } = useAgent();
+    : [33;1m                      ^^^^^^^|^^^^^^[0m
+    :                              [33;1m`-- [33;1m`pendingPrefill` redefined here[0m[0m
+ [2m39[0m |   const [messages, setMessages] = useState<Message[]>(() => {
+ [2m40[0m |     if (pendingPrefill) return [];
+ [2m40[0m |     return [{ id: "loading", role: "agent", content: "姝ｅ湪鍒嗘瀽浣犵殑搴楅摵鏁版嵁..." }];
+    `----
+
+  [31mx[0m the name `consumePrefill` is defined multiple times
+    ,-[[36;1;4mC:\Users\29842\Documents\鎸囧\restaurant-saas\src\components\agent\agent-panel.tsx[0m:32:1]
+ [2m32[0m | }
+ [2m33[0m | 
+ [2m34[0m | function AgentChat() {
+ [2m35[0m |   const { closeAgent, pendingPrefill, consumePrefill } = useAgent();
+    : [31;1m                                      ^^^^^^^|^^^^^^[0m
+    :                                              [31;1m`-- [31;1mprevious definition of `consumePrefill` here[0m[
+0m
+ [2m36[0m |   const [showAgentMenu, setShowAgentMenu] = useState(false);
+ [2m37[0m |   const [showSkillMenu, setShowSkillMenu] = useState(false);
+ [2m38[0m |   const { closeAgent, pendingPrefill, consumePrefill, selectedSkill, setSelectedSkill, selectedAgentId, s
+etSelectedAgentId, availableSkills, setAvailableSkills } = useAgent();
+    : [33;1m                                      ^^^^^^^|^^^^^^[0m
+    :                                              [33;1m`-- [33;1m`consumePrefill` redefined here[0m[0m
+ [2m39[0m |   const [messages, setMessages] = useState<Message[]>(() => {
+ [2m40[0m |     if (pendingPrefill) return [];
+ [2m40[0m |     return [{ id: "loading", role: "agent", content: "姝ｅ湪鍒嗘瀽浣犵殑搴楅摵鏁版嵁..." }];
+    `----
+
+Import trace for requested module:
+./src/components/agent/agent-panel.tsx
+./src/app/(dashboard)/layout.tsx
+ 鉁?Compiled in 714ms (723 modules)
+ 鉁?Compiled in 569ms (390 modules)
+ 鉁?Compiled in 150ms (390 modules)
+ 鉁?Compiled in 196ms (390 modules)
+ 鉁?Compiled in 198ms (390 modules)
+ 鉁?Compiled in 160ms (390 modules)
+ 鉁?Compiled in 307ms (390 modules)
+ 鉁?Compiled in 199ms (390 modules)
+ 猕?./src/app/(dashboard)/operations/plan-generator.ts
+Error: 
+  [31mx[0m Expected ',', got '('
+    ,-[[36;1;4mC:\Users\29842\Documents\鎸囧\restaurant-saas\src\app\(dashboard)\operations\plan-generator.ts[0m:6:1]
+ [2m 6[0m |  * ============================================================
+ [2m 7[0m |  */
+ [2m 8[0m | 
+ [2m 9[0m | import { templateToPlan(g } from "@/lib/agent/classification/strategy-templates";
+    : [31;1m                       ^[0m
+ [2m10[0m | import type { ClassificationInput, MerchantClassification } from "@/lib/agent/classification/types";
+ [2m11[0m | import type {
+ [2m12[0m |   PlatformAccount,
     `----
 
 Caused by:
     Syntax Error
 
 Import trace for requested module:
+./src/app/(dashboard)/operations/plan-generator.ts
 ./src/app/(dashboard)/operations/page.tsx
- 鈼?Compiling /_error ...
  猕?./src/app/(dashboard)/operations/page.tsx
 Error: 
-  [31mx[0m Expected ';', '}' or <eof>
-    ,-[[36;1;4mC:\Users\29842\Documents\鎸囧\restaurant-saas\src\app\(dashboard)\operations\page.tsx[0m:48:1]
- [2m48[0m |           const saved = localStorage.getItem(STORAGE_KEYS.STORE_INFO);
- [2m49[0m |           if (saved) {
- [2m50[0m |             const data = JSON.parse(saved);
- [2m51[0m | [31;1m,[0m[31;1m-[0m[31;1m>[0m           cuisineType: data.cuisineType || "鐏攨",
- [2m52[0m | [31;1m|[0m[31;1m-[0m[31;1m>[0m           priceRange: data.priceRange || "80-120",
-    : [31;1m`[0m[31;1m---[0m[33;1m                    ^[0m
-    : [31;1m`[0m[31;1m---[0m[31;1m-[0m [31;1mThis is the expression part of an expression statement[0m
- [2m53[0m |               targetCustomers: data.targetCustomers || "",
- [2m54[0m |               hasDianping: false,
- [2m54[0m |               hasXiaohongshu: false,
+  [31mx[0m Expression expected
+   ,-[[36;1;4mC:\Users\29842\Documents\鎸囧\restaurant-saas\src\app\(dashboard)\operations\page.tsx[0m:2:1]
+ [2m2[0m | 
+ [2m3[0m | import { useState, useEffect, useMemo } from "react";
+ [2m4[0m | import { UtensilsCrossed } from "lucide-react";
+ [2m5[0m | import { Card, CardContent } from "@/components/ui/card";@import { Card, CardContent } from "@/components/
+ui/card";
+   : [31;1m                                                         ^[0m
+ [2m6[0m | import { classifyMerchant } from "@/lib/agent/classification/merchant-classifier";
+ [2m7[0m | import { getStrategyTemplate } from "@/lib/agent/classification/strategy-templates";
+ [2m7[0m | import { STRATEGY_LABELS, STORAGE_KEYS } from "@/lib/agent/classification/types";
+   `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/(dashboard)/operations/page.tsx
+ 猕?./src/app/(dashboard)/operations/plan-generator.ts
+Error: 
+  [31mx[0m Expected ',', got '('
+    ,-[[36;1;4mC:\Users\29842\Documents\鎸囧\restaurant-saas\src\app\(dashboard)\operations\plan-generator.ts[0m:6:1]
+ [2m 6[0m |  * ============================================================
+ [2m 7[0m |  */
+ [2m 8[0m | 
+ [2m 9[0m | import { templateToPlan(g } from "@/lib/agent/classification/strategy-templates";
+    : [31;1m                       ^[0m
+ [2m10[0m | import type { ClassificationInput, MerchantClassification } from "@/lib/agent/classification/types";
+ [2m11[0m | import type {
+ [2m12[0m |   PlatformAccount,
     `----
 
 Caused by:
     Syntax Error
 
 Import trace for requested module:
+./src/app/(dashboard)/operations/plan-generator.ts
 ./src/app/(dashboard)/operations/page.tsx
- 猕?./src/app/(dashboard)/operations/page.tsx
+ 猕?./src/app/(dashboard)/operations/sync-group-section.tsx
 Error: 
-  [31mx[0m Expected ';', '}' or <eof>
-    ,-[[36;1;4mC:\Users\29842\Documents\鎸囧\restaurant-saas\src\app\(dashboard)\operations\page.tsx[0m:48:1]
- [2m48[0m |           const saved = localStorage.getItem(STORAGE_KEYS.STORE_INFO);
- [2m49[0m |           if (saved) {
- [2m50[0m |             const data = JSON.parse(saved);
- [2m51[0m | [31;1m,[0m[31;1m-[0m[31;1m>[0m           cuisineType: data.cuisineType || "鐏攨",
- [2m52[0m | [31;1m|[0m[31;1m-[0m[31;1m>[0m           priceRange: data.priceRange || "80-120",
-    : [31;1m`[0m[31;1m---[0m[33;1m                    ^[0m
-    : [31;1m`[0m[31;1m---[0m[31;1m-[0m [31;1mThis is the expression part of an expression statement[0m
- [2m53[0m |               targetCustomers: data.targetCustomers || "",
- [2m54[0m |               hasDianping: false,
- [2m54[0m |               hasXiaohongshu: false,
+  [31mx[0m Unexpected token `Card`. Expected jsx identifier
+    ,-[[36;1;4mC:\Users\29842\Documents\鎸囧\restaurant-saas\src\app\(dashboard)\operations\sync-group-section.tsx[0m:
+63:1]
+ [2m63[0m |   if (syncGroups.length === 0 && !showForm) return null;
+ [2m64[0m | 
+ [2m65[0m |   return (
+ [2m66[0m |     <Card className={TICKET}>
+    : [31;1m     ^^^^[0m
+ [2m67[0m |       <CardContent className="p-5 sm:p-6">
+ [2m68[0m |         <div className="flex items-center justify-between">
+ [2m69[0m |           <p className={EYEBROW}>鍚屾缁?/p>
     `----
 
 Caused by:
     Syntax Error
 
 Import trace for requested module:
+./src/app/(dashboard)/operations/sync-group-section.tsx
 ./src/app/(dashboard)/operations/page.tsx
- GET /_next/static/webpack/522988aa02f46cd9.webpack.hot-update.json 500 in 521ms
- 鈿?Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
- GET /sign-in 500 in 34ms
+ 鉁?Compiled in 619ms (761 modules)
+ 鉁?Compiled in 277ms (761 modules)
+ 鉁?Compiled in 283ms (761 modules)
+ 鉁?Compiled in 497ms (761 modules)
  猕?./src/app/(dashboard)/operations/page.tsx
 Error: 
-  [31mx[0m Expected ';', '}' or <eof>
-    ,-[[36;1;4mC:\Users\29842\Documents\鎸囧\restaurant-saas\src\app\(dashboard)\operations\page.tsx[0m:48:1]
- [2m48[0m |           const saved = localStorage.getItem(STORAGE_KEYS.STORE_INFO);
- [2m49[0m |           if (saved) {
- [2m50[0m |             const data = JSON.parse(saved);
- [2m51[0m | [31;1m,[0m[31;1m-[0m[31;1m>[0m           cuisineType: data.cuisineType || "鐏攨",
- [2m52[0m | [31;1m|[0m[31;1m-[0m[31;1m>[0m           priceRange: data.priceRange || "80-120",
-    : [31;1m`[0m[31;1m---[0m[33;1m                    ^[0m
-    : [31;1m`[0m[31;1m---[0m[31;1m-[0m [31;1mThis is the expression part of an expression statement[0m
- [2m53[0m |               targetCustomers: data.targetCustomers || "",
- [2m54[0m |               hasDianping: false,
- [2m54[0m |               hasXiaohongshu: false,
-    `----
-
-Caused by:
-    Syntax Error
-
-Import trace for requested module:
-./src/app/(dashboard)/operations/page.tsx
- 猕?./src/app/(dashboard)/operations/page.tsx
-Error: 
-  [31mx[0m Expected ';', '}' or <eof>
-    ,-[[36;1;4mC:\Users\29842\Documents\鎸囧\restaurant-saas\src\app\(dashboard)\operations\page.tsx[0m:48:1]
- [2m48[0m |           const saved = localStorage.getItem(STORAGE_KEYS.STORE_INFO);
- [2m49[0m |           if (saved) {
- [2m50[0m |             const data = JSON.parse(saved);
- [2m51[0m | [31;1m,[0m[31;1m-[0m[31;1m>[0m           cuisineType: data.cuisineType || "鐏攨",
- [2m52[0m | [31;1m|[0m[31;1m-[0m[31;1m>[0m           priceRange: data.priceRange || "80-120",
-    : [31;1m`[0m[31;1m---[0m[33;1m                    ^[0m
-    : [31;1m`[0m[31;1m---[0m[31;1m-[0m [31;1mThis is the expression part of an expression statement[0m
- [2m53[0m |               targetCustomers: data.targetCustomers || "",
- [2m54[0m |               hasDianping: false,
- [2m54[0m |               hasXiaohongshu: false,
-    `----
-
-Caused by:
-    Syntax Error
-
-Import trace for requested module:
-./src/app/(dashboard)/operations/page.tsx
- GET /_next/static/webpack/2fc0850a1586e094.webpack.hot-update.json 500 in 721ms
- GET /operations 500 in 402ms
- 鈿?Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
- GET /sign-in 500 in 12ms
- 猕?./src/app/(dashboard)/operations/page.tsx
-Error: 
-  [31mx[0m the name `result` is defined multiple times
-    ,-[[36;1;4mC:\Users\29842\Documents\鎸囧\restaurant-saas\src\app\(dashboard)\operations\page.tsx[0m:59:1]
- [2m59[0m |           city: data.address?.match(/(.+?(?:甯倈鍖簗鍘縷鍩?)/)?.[1] || "",
- [2m60[0m |         };
- [2m61[0m |         setStoreInput(input);
- [2m62[0m |         const result = classifyMerchant(input);
-    : [31;1m              ^^^|^^[0m
-    :                  [31;1m`-- [31;1mprevious definition of `result` here[0m[0m
- [2m63[0m |         setClassification(result);
- [2m64[0m |         setSelectedType(result.primaryType);
- [2m65[0m |         const result = classifyMerchant(input);
-    : [33;1m              ^^^|^^[0m
-    :                  [33;1m`-- [33;1m`result` redefined here[0m[0m
- [2m66[0m |         setClassification(result);
- [2m67[0m |         setSelectedType(result.primaryType);
- [2m67[0m |       }
-    `----
-
-Import trace for requested module:
-./src/app/(dashboard)/operations/page.tsx
- GET /_next/static/webpack/2fc0850a1586e094.webpack.hot-update.json 500 in 607ms
- GET /_next/static/webpack/2fc0850a1586e094.webpack.hot-update.json 500 in 598ms
- 鈿?Fast Refresh had to perform a full reload due to a runtime error.
- 鈿?Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
- GET /sign-in 500 in 9ms
- GET /operations 500 in 13ms
- GET /_next/static/webpack/2fc0850a1586e094.webpack.hot-update.json 500 in 10ms
- 鈿?Fast Refresh had to perform a full reload due to a runtime error.
- 鉁?Compiled /_not-found in 716ms (1040 modules)
- 鉁?Compiled (1026 modules)
- GET /_next/static/webpack/2fc0850a1586e094.webpack.hot-update.json 404 in 923ms
- 鈿?Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
- GET /sign-in 200 in 51ms
- GET /operations 200 in 71ms
- 鉁?Compiled /api/hot-content in 178ms (485 modules)
- GET /api/hot-content?platform=all&cuisine=all&city=%E5%85%A8%E5%9B%BD&preferAnalyzed=true&limit=30 200 in 449ms
- GET /api/hot-content?platform=all&cuisine=all&city=%E5%85%A8%E5%9B%BD&preferAnalyzed=true&limit=30 200 in 30ms
- 鉁?Compiled /content in 284ms (498 modules)
- GET /operations 200 in 102ms
- GET /api/hot-content?platform=all&cuisine=all&city=%E5%85%A8%E5%9B%BD&preferAnalyzed=true&limit=30 200 in 61ms
- GET /api/hot-content?platform=all&cuisine=all&city=%E5%85%A8%E5%9B%BD&preferAnalyzed=true&limit=30 200 in 29ms
- 猕?./src/app/(dashboard)/operations/page.tsx
-Error: 
-  [31mx[0m Unexpected token `div`. Expected jsx identifier
-     ,-[[36;1;4mC:\Users\29842\Documents\鎸囧\restaurant-saas\src\app\(dashboard)\operations\page.tsx[0m:192:1]
- [2m192[0m |   };
- [2m193[0m | 
- [2m194[0m |   return (
- [2m195[0m |     <div className="p-6 space-y-6 max-w-5xl">
-     : [31;1m     ^^^[0m
- [2m196[0m |       <h1 className="text-2xl font-bold tracking-tight">杩愯惀瑙勫垝</h1>
- [2m197[0m |       <p className="text-sm text-muted-foreground -mt-4">绠＄悊杩愯惀绛栫暐涓庡骞冲彴璐﹀彿</p>
- [2m197[0m | 
+  [31mx[0m Expected ',', got '{'
+     ,-[[36;1;4mC:\Users\29842\Documents\鎸囧\restaurant-saas\src\app\(dashboard)\operations\page.tsx[0m:245:1]
+ [2m245[0m |     setSyncGroups(nextGroups);
+ [2m246[0m |     saveSyncGroups(nextGroups);
+ [2m247[0m |   }
+ [2m248[0m |   function handleDeleteSyncGroup($id: string$ {
+     : [31;1m                                              ^[0m
+ [2m249[0m |     const next = syncGroups.filter((g) => g.id !== id);
+ [2m250[0m |     setSyncGroups(next);
+ [2m250[0m |     saveSyncGroups(next);
      `----
 
 Caused by:
@@ -236,47 +211,21 @@ Caused by:
 
 Import trace for requested module:
 ./src/app/(dashboard)/operations/page.tsx
- GET /sign-in 500 in 15ms
- GET /operations 500 in 7ms
- 鉁?Compiled /_not-found in 478ms (1026 modules)
- 鈿?Fast Refresh had to perform a full reload due to a runtime error.
- 鈿?Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
- GET /sign-in 200 in 150ms
- GET /_next/static/webpack/2fc0850a1586e094.webpack.hot-update.json 404 in 642ms
- GET /_next/static/webpack/2fc0850a1586e094.webpack.hot-update.json 404 in 702ms
- GET /sign-in 200 in 61ms
- GET /operations 200 in 92ms
- 鉁?Compiled /api/hot-content in 114ms (485 modules)
- GET /api/hot-content?platform=all&cuisine=all&city=%E5%85%A8%E5%9B%BD&preferAnalyzed=true&limit=30 200 in 286ms
- GET /api/hot-content?platform=all&cuisine=all&city=%E5%85%A8%E5%9B%BD&preferAnalyzed=true&limit=30 200 in 22ms
- GET /sign-in 200 in 102ms
- 鉁?Compiled /onboarding in 494ms (1047 modules)
- 鉁?Compiled /_not-found in 307ms (1036 modules)
- 鈿?Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
- 鈿?Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
- GET /_next/static/webpack/7c4921b53823c84b.webpack.hot-update.json 404 in 385ms
- GET /_next/static/webpack/7c4921b53823c84b.webpack.hot-update.json 404 in 385ms
- GET /operations 200 in 85ms
- GET /operations 200 in 72ms
- 鉁?Compiled /api/hot-content in 184ms (491 modules)
- GET /api/hot-content?platform=all&cuisine=all&city=%E5%85%A8%E5%9B%BD&preferAnalyzed=true&limit=30 200 in 477ms
- GET /api/hot-content?platform=all&cuisine=all&city=%E5%85%A8%E5%9B%BD&preferAnalyzed=true&limit=30 200 in 383ms
- GET /api/hot-content?platform=all&cuisine=all&city=%E5%85%A8%E5%9B%BD&preferAnalyzed=true&limit=30 200 in 560ms
- GET /api/hot-content?platform=all&cuisine=all&city=%E5%85%A8%E5%9B%BD&preferAnalyzed=true&limit=30 200 in 27ms
- GET /api/hot-content?platform=all&cuisine=all&city=%E5%85%A8%E5%9B%BD&preferAnalyzed=true&limit=30 200 in 18ms
- GET /api/hot-content?platform=all&cuisine=all&city=%E5%85%A8%E5%9B%BD&preferAnalyzed=true&limit=30 200 in 21ms
+ 鉁?Compiled in 130ms (381 modules)
+ 鉁?Compiled in 93ms (381 modules)
+ 鉁?Compiled in 149ms (381 modules)
  猕?./src/app/(dashboard)/operations/page.tsx
 Error: 
-  [31mx[0m Unexpected token `div`. Expected jsx identifier
-     ,-[[36;1;4mC:\Users\29842\Documents\鎸囧\restaurant-saas\src\app\(dashboard)\operations\page.tsx[0m:193:1]
- [2m193[0m |   };
- [2m194[0m | 
- [2m195[0m |   return (
- [2m196[0m |     <div className="p-6 space-y-6 max-w-5xl">
-     : [31;1m     ^^^[0m
- [2m197[0m |       <h1 className="text-2xl font-bold tracking-tight">杩愯惀瑙勫垝</h1>
- [2m198[0m |       <p className="text-sm text-muted-foreground -mt-4">绠＄悊杩愯惀绛栫暐涓庡骞冲彴璐﹀彿</p>
- [2m198[0m | 
+  [31mx[0m Expected ',', got '{'
+     ,-[[36;1;4mC:\Users\29842\Documents\鎸囧\restaurant-saas\src\app\(dashboard)\operations\page.tsx[0m:245:1]
+ [2m245[0m |     setSyncGroups(nextGroups);
+ [2m246[0m |     saveSyncGroups(nextGroups);
+ [2m247[0m |   }
+ [2m248[0m |   function handleDeleteSyncGroup($id: string$ {
+     : [31;1m                                              ^[0m
+ [2m249[0m |     const next = syncGroups.filter((g) => g.id !== id);
+ [2m250[0m |     setSyncGroups(next);
+ [2m250[0m |     saveSyncGroups(next);
      `----
 
 Caused by:
@@ -284,39 +233,18 @@ Caused by:
 
 Import trace for requested module:
 ./src/app/(dashboard)/operations/page.tsx
- GET /operations 500 in 10ms
- GET /operations 500 in 14ms
- GET /operations 500 in 13ms
- 鈼?Compiling /_not-found ...
- 鉁?Compiled /_not-found in 615ms (1044 modules)
- 鈿?Fast Refresh had to perform a full reload due to a runtime error.
- 鈿?Fast Refresh had to perform a full reload due to a runtime error.
- 鈿?Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
- GET /_next/static/webpack/2fc0850a1586e094.webpack.hot-update.json 404 in 856ms
- GET /_next/static/webpack/2fc0850a1586e094.webpack.hot-update.json 404 in 856ms
- GET /_next/static/webpack/2fc0850a1586e094.webpack.hot-update.json 404 in 860ms
- GET /operations 200 in 115ms
- GET /operations 200 in 122ms
- GET /operations 200 in 58ms
- 鉁?Compiled /api/hot-content in 240ms (485 modules)
- GET /api/hot-content?platform=all&cuisine=all&city=%E5%85%A8%E5%9B%BD&preferAnalyzed=true&limit=30 200 in 1230ms
- GET /api/hot-content?platform=all&cuisine=all&city=%E5%85%A8%E5%9B%BD&preferAnalyzed=true&limit=30 200 in 1230ms
- GET /api/hot-content?platform=all&cuisine=all&city=%E5%85%A8%E5%9B%BD&preferAnalyzed=true&limit=30 200 in 1027ms
- GET /api/hot-content?platform=all&cuisine=all&city=%E5%85%A8%E5%9B%BD&preferAnalyzed=true&limit=30 200 in 23ms
- GET /api/hot-content?platform=all&cuisine=all&city=%E5%85%A8%E5%9B%BD&preferAnalyzed=true&limit=30 404 in 75ms
- GET /api/hot-content?platform=all&cuisine=all&city=%E5%85%A8%E5%9B%BD&preferAnalyzed=true&limit=30 404 in 72ms
  猕?./src/app/(dashboard)/operations/page.tsx
 Error: 
-  [31mx[0m Unexpected token `div`. Expected jsx identifier
-     ,-[[36;1;4mC:\Users\29842\Documents\鎸囧\restaurant-saas\src\app\(dashboard)\operations\page.tsx[0m:193:1]
- [2m193[0m |   };
- [2m194[0m | 
- [2m195[0m |   return (
- [2m196[0m |     <div className="p-6 space-y-6 max-w-5xl">
-     : [31;1m     ^^^[0m
- [2m197[0m |       <h1 className="text-2xl font-bold tracking-tight">杩愯惀瑙勫垝</h1>
- [2m198[0m |       <p className="text-sm text-muted-foreground -mt-4">绠＄悊杩愯惀绛栫暐涓庡骞冲彴璐﹀彿</p>
- [2m198[0m | 
+  [31mx[0m Expected ',', got '{'
+     ,-[[36;1;4mC:\Users\29842\Documents\鎸囧\restaurant-saas\src\app\(dashboard)\operations\page.tsx[0m:245:1]
+ [2m245[0m |     setSyncGroups(nextGroups);
+ [2m246[0m |     saveSyncGroups(nextGroups);
+ [2m247[0m |   }
+ [2m248[0m |   function handleDeleteSyncGroup($id: string$ {
+     : [31;1m                                              ^[0m
+ [2m249[0m |     const next = syncGroups.filter((g) => g.id !== id);
+ [2m250[0m |     setSyncGroups(next);
+ [2m250[0m |     saveSyncGroups(next);
      `----
 
 Caused by:
@@ -324,22 +252,18 @@ Caused by:
 
 Import trace for requested module:
 ./src/app/(dashboard)/operations/page.tsx
- GET /operations 500 in 13ms
- GET /operations 500 in 21ms
- GET /operations 500 in 18ms
- 鈼?Compiling /_not-found ...
  猕?./src/app/(dashboard)/operations/page.tsx
 Error: 
-  [31mx[0m Unexpected token `div`. Expected jsx identifier
-     ,-[[36;1;4mC:\Users\29842\Documents\鎸囧\restaurant-saas\src\app\(dashboard)\operations\page.tsx[0m:193:1]
- [2m193[0m |   };
- [2m194[0m | 
- [2m195[0m |   return (
- [2m196[0m |     <div className="p-6 space-y-6 max-w-5xl">
-     : [31;1m     ^^^[0m
- [2m197[0m |       <h1 className="text-2xl font-bold tracking-tight">杩愯惀瑙勫垝</h1>
- [2m198[0m |       <p className="text-sm text-muted-foreground -mt-4">绠＄悊杩愯惀绛栫暐涓庡骞冲彴璐﹀彿</p>
- [2m198[0m | 
+  [31mx[0m Expected ',', got '{'
+     ,-[[36;1;4mC:\Users\29842\Documents\鎸囧\restaurant-saas\src\app\(dashboard)\operations\page.tsx[0m:245:1]
+ [2m245[0m |     setSyncGroups(nextGroups);
+ [2m246[0m |     saveSyncGroups(nextGroups);
+ [2m247[0m |   }
+ [2m248[0m |   function handleDeleteSyncGroup($id: string$ {
+     : [31;1m                                              ^[0m
+ [2m249[0m |     const next = syncGroups.filter((g) => g.id !== id);
+ [2m250[0m |     setSyncGroups(next);
+ [2m250[0m |     saveSyncGroups(next);
      `----
 
 Caused by:
@@ -347,27 +271,26 @@ Caused by:
 
 Import trace for requested module:
 ./src/app/(dashboard)/operations/page.tsx
- GET /_next/static/webpack/2fc0850a1586e094.webpack.hot-update.json 500 in 556ms
- GET /_next/static/webpack/2fc0850a1586e094.webpack.hot-update.json 500 in 553ms
- GET /_next/static/webpack/2fc0850a1586e094.webpack.hot-update.json 500 in 548ms
- 鈿?Fast Refresh had to perform a full reload due to a runtime error.
- 鈿?Fast Refresh had to perform a full reload due to a runtime error.
- 鈿?Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
- GET /operations 500 in 17ms
- GET /operations 500 in 14ms
- GET /operations 500 in 16ms
+ 鉁?Compiled in 1014ms (761 modules)
+ 鉁?Compiled in 389ms (761 modules)
+ 鉁?Compiled in 191ms (761 modules)
+ 鉁?Compiled in 204ms (761 modules)
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: EPERM: operation not permitted, rename 'C:\Us
+ers\29842\Documents\鎸囧\restaurant-saas\.next\cache\webpack\server-development\5.pack.gz_' -> 'C:\Users\29842\Documents
+\鎸囧\restaurant-saas\.next\cache\webpack\server-development\5.pack.gz'
+ 鉁?Compiled in 471ms (761 modules)
  猕?./src/app/(dashboard)/operations/page.tsx
 Error: 
-  [31mx[0m Unexpected token `div`. Expected jsx identifier
-     ,-[[36;1;4mC:\Users\29842\Documents\鎸囧\restaurant-saas\src\app\(dashboard)\operations\page.tsx[0m:193:1]
- [2m193[0m |   };
- [2m194[0m | 
- [2m195[0m |   return (
- [2m196[0m |     <div className="p-6 space-y-6 max-w-5xl">
-     : [31;1m     ^^^[0m
- [2m197[0m |       <h1 className="text-2xl font-bold tracking-tight">杩愯惀瑙勫垝</h1>
- [2m198[0m |       <p className="text-sm text-muted-foreground -mt-4">绠＄悊杩愯惀绛栫暐涓庡骞冲彴璐﹀彿</p>
- [2m198[0m | 
+  [31mx[0m Expected ',', got ']'
+     ,-[[36;1;4mC:\Users\29842\Documents\鎸囧\restaurant-saas\src\app\(dashboard)\operations\page.tsx[0m:228:1]
+ [2m228[0m |     // 鍚屾鏇存柊缁勪晶鎴愬憳鍒楄〃
+ [2m229[0m |     const nextGroups = syncGroups.map((g) =>
+ [2m230[0m |       g.id === groupId
+ [2m231[0m |         ? { ...g, accountIds: [...g.accountIds, accountId].filter((x,i,a) => a.indexOf(x) === i) ]
+     : [31;1m                                                                                                 ^[0m
+ [2m232[0m |         : g
+ [2m233[0m |     );
+ [2m234[0m |     setSyncGroups(nextGroups);
      `----
 
 Caused by:
@@ -375,27 +298,21 @@ Caused by:
 
 Import trace for requested module:
 ./src/app/(dashboard)/operations/page.tsx
- GET /_next/static/webpack/2fc0850a1586e094.webpack.hot-update.json 500 in 399ms
- 鈿?Fast Refresh had to perform a full reload due to a runtime error.
- GET /_next/static/webpack/2fc0850a1586e094.webpack.hot-update.json 500 in 398ms
- GET /_next/static/webpack/2fc0850a1586e094.webpack.hot-update.json 500 in 397ms
- 鈿?Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
- 鈿?Fast Refresh had to perform a full reload due to a runtime error.
- GET /operations 500 in 18ms
- GET /operations 500 in 20ms
- GET /operations 500 in 21ms
+ 鉁?Compiled in 143ms (381 modules)
+ 鉁?Compiled in 99ms (381 modules)
+ 鉁?Compiled in 194ms (381 modules)
  猕?./src/app/(dashboard)/operations/page.tsx
 Error: 
-  [31mx[0m Unexpected token `div`. Expected jsx identifier
-     ,-[[36;1;4mC:\Users\29842\Documents\鎸囧\restaurant-saas\src\app\(dashboard)\operations\page.tsx[0m:193:1]
- [2m193[0m |   };
- [2m194[0m | 
- [2m195[0m |   return (
- [2m196[0m |     <div className="p-6 space-y-6 max-w-5xl">
-     : [31;1m     ^^^[0m
- [2m197[0m |       <h1 className="text-2xl font-bold tracking-tight">杩愯惀瑙勫垝</h1>
- [2m198[0m |       <p className="text-sm text-muted-foreground -mt-4">绠＄悊杩愯惀绛栫暐涓庡骞冲彴璐﹀彿</p>
- [2m198[0m | 
+  [31mx[0m Expected ',', got ']'
+     ,-[[36;1;4mC:\Users\29842\Documents\鎸囧\restaurant-saas\src\app\(dashboard)\operations\page.tsx[0m:228:1]
+ [2m228[0m |     // 鍚屾鏇存柊缁勪晶鎴愬憳鍒楄〃
+ [2m229[0m |     const nextGroups = syncGroups.map((g) =>
+ [2m230[0m |       g.id === groupId
+ [2m231[0m |         ? { ...g, accountIds: [...g.accountIds, accountId].filter((x,i,a) => a.indexOf(x) === i) ]
+     : [31;1m                                                                                                 ^[0m
+ [2m232[0m |         : g
+ [2m233[0m |     );
+ [2m233[0m |     setSyncGroups(nextGroups);
      `----
 
 Caused by:
@@ -403,27 +320,18 @@ Caused by:
 
 Import trace for requested module:
 ./src/app/(dashboard)/operations/page.tsx
- GET /_next/static/webpack/2fc0850a1586e094.webpack.hot-update.json 500 in 556ms
- GET /_next/static/webpack/2fc0850a1586e094.webpack.hot-update.json 500 in 551ms
- GET /_next/static/webpack/2fc0850a1586e094.webpack.hot-update.json 500 in 549ms
- 鈿?Fast Refresh had to perform a full reload due to a runtime error.
- 鈿?Fast Refresh had to perform a full reload due to a runtime error.
- 鈿?Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
- GET /operations 500 in 17ms
- GET /operations 500 in 17ms
- GET /operations 500 in 42ms
  猕?./src/app/(dashboard)/operations/page.tsx
 Error: 
-  [31mx[0m Unexpected token `div`. Expected jsx identifier
-     ,-[[36;1;4mC:\Users\29842\Documents\鎸囧\restaurant-saas\src\app\(dashboard)\operations\page.tsx[0m:193:1]
- [2m193[0m |   };
- [2m194[0m | 
- [2m195[0m |   return (
- [2m196[0m |     <div className="p-6 space-y-6 max-w-5xl">
-     : [31;1m     ^^^[0m
- [2m197[0m |       <h1 className="text-2xl font-bold tracking-tight">杩愯惀瑙勫垝</h1>
- [2m198[0m |       <p className="text-sm text-muted-foreground -mt-4">绠＄悊杩愯惀绛栫暐涓庡骞冲彴璐﹀彿</p>
- [2m198[0m | 
+  [31mx[0m Expression expected
+     ,-[[36;1;4mC:\Users\29842\Documents\鎸囧\restaurant-saas\src\app\(dashboard)\operations\page.tsx[0m:227:1]
+ [2m227[0m |     handleUpdateAccount(accountId, { syncGroupId: groupId });
+ [2m228[0m |     // 鍚屾鏇存柊缁勪晶鎴愬憳鍒楄〃
+ [2m229[0m |     const nextGroups = syncGroups.map((g) =>
+ [2m230[0m |         ? { ...g, accountIds: [...g.accountIds, accountId].filter((x,i,a) => a.indexOf(x) === i) }
+     : [31;1m        ^[0m
+ [2m231[0m |         ? { ...g, accountIds: [...g.accountIds, accountId].filter((x,i,a) => a.indexOf(x) === i) ]
+ [2m232[0m |         : g
+ [2m232[0m |     );
      `----
 
 Caused by:
@@ -431,28 +339,18 @@ Caused by:
 
 Import trace for requested module:
 ./src/app/(dashboard)/operations/page.tsx
- GET /_next/static/webpack/2fc0850a1586e094.webpack.hot-update.json 500 in 464ms
- GET /_next/static/webpack/2fc0850a1586e094.webpack.hot-update.json 500 in 459ms
- GET /_next/static/webpack/2fc0850a1586e094.webpack.hot-update.json 500 in 458ms
- 鈿?Fast Refresh had to perform a full reload due to a runtime error.
- 鈿?Fast Refresh had to perform a full reload due to a runtime error.
- 鈿?Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
- GET /operations 500 in 15ms
- GET /operations 500 in 13ms
- GET /operations 500 in 17ms
- GET /sign-in 500 in 8ms
  猕?./src/app/(dashboard)/operations/page.tsx
 Error: 
-  [31mx[0m Unexpected token `div`. Expected jsx identifier
-     ,-[[36;1;4mC:\Users\29842\Documents\鎸囧\restaurant-saas\src\app\(dashboard)\operations\page.tsx[0m:193:1]
- [2m193[0m |   };
- [2m194[0m | 
- [2m195[0m |   return (
- [2m196[0m |     <div className="p-6 space-y-6 max-w-5xl">
-     : [31;1m     ^^^[0m
- [2m197[0m |       <h1 className="text-2xl font-bold tracking-tight">杩愯惀瑙勫垝</h1>
- [2m198[0m |       <p className="text-sm text-muted-foreground -mt-4">绠＄悊杩愯惀绛栫暐涓庡骞冲彴璐﹀彿</p>
- [2m198[0m | 
+  [31mx[0m Expression expected
+     ,-[[36;1;4mC:\Users\29842\Documents\鎸囧\restaurant-saas\src\app\(dashboard)\operations\page.tsx[0m:227:1]
+ [2m227[0m |     handleUpdateAccount(accountId, { syncGroupId: groupId });
+ [2m228[0m |     // 鍚屾鏇存柊缁勪晶鎴愬憳鍒楄〃
+ [2m229[0m |     const nextGroups = syncGroups.map((g) =>
+ [2m230[0m |         ? { ...g, accountIds: [...g.accountIds, accountId].filter((x,i,a) => a.indexOf(x) === i) }
+     : [31;1m        ^[0m
+ [2m231[0m |         : g
+ [2m232[0m |     );
+ [2m232[0m |     setSyncGroups(nextGroups);
      `----
 
 Caused by:
@@ -460,71 +358,118 @@ Caused by:
 
 Import trace for requested module:
 ./src/app/(dashboard)/operations/page.tsx
- GET /_next/static/webpack/2fc0850a1586e094.webpack.hot-update.json 500 in 539ms
- GET /_next/static/webpack/2fc0850a1586e094.webpack.hot-update.json 500 in 532ms
- GET /_next/static/webpack/2fc0850a1586e094.webpack.hot-update.json 500 in 530ms
- 鈿?Fast Refresh had to perform a full reload due to a runtime error.
- 鈿?Fast Refresh had to perform a full reload due to a runtime error.
- 鈿?Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
- GET /operations 500 in 14ms
- GET /operations 500 in 16ms
- GET /operations 500 in 19ms
- 鉁?Compiled /_not-found in 719ms (1030 modules)
- 鈿?Fast Refresh had to perform a full reload due to a runtime error.
- 鈿?Fast Refresh had to perform a full reload due to a runtime error.
- 鈿?Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
- GET /_next/static/webpack/2fc0850a1586e094.webpack.hot-update.json 404 in 970ms
- GET /_next/static/webpack/2fc0850a1586e094.webpack.hot-update.json 404 in 959ms
- GET /_next/static/webpack/2fc0850a1586e094.webpack.hot-update.json 404 in 959ms
- GET /operations 200 in 70ms
- GET /operations 200 in 102ms
- GET /operations 200 in 55ms
- 鉁?Compiled /api/hot-content in 244ms (485 modules)
- GET /api/hot-content?platform=all&cuisine=all&city=%E5%85%A8%E5%9B%BD&preferAnalyzed=true&limit=30 200 in 542ms
- GET /api/hot-content?platform=all&cuisine=all&city=%E5%85%A8%E5%9B%BD&preferAnalyzed=true&limit=30 200 in 1001ms
- GET /api/hot-content?platform=all&cuisine=all&city=%E5%85%A8%E5%9B%BD&preferAnalyzed=true&limit=30 200 in 1001ms
- GET /api/hot-content?platform=all&cuisine=all&city=%E5%85%A8%E5%9B%BD&preferAnalyzed=true&limit=30 200 in 30ms
- GET /api/hot-content?platform=all&cuisine=all&city=%E5%85%A8%E5%9B%BD&preferAnalyzed=true&limit=30 404 in 116ms
- GET /api/hot-content?platform=all&cuisine=all&city=%E5%85%A8%E5%9B%BD&preferAnalyzed=true&limit=30 200 in 19ms
- 鈿?Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
- 鈿?Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
- 鉁?Compiled in 312ms (1076 modules)
- 鈿?Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
- GET /operations 200 in 119ms
- GET /operations 200 in 74ms
- GET /operations 200 in 71ms
- GET /api/hot-content?platform=all&cuisine=all&city=%E5%85%A8%E5%9B%BD&preferAnalyzed=true&limit=30 200 in 39ms
- GET /api/hot-content?platform=all&cuisine=all&city=%E5%85%A8%E5%9B%BD&preferAnalyzed=true&limit=30 200 in 59ms
- GET /api/hot-content?platform=all&cuisine=all&city=%E5%85%A8%E5%9B%BD&preferAnalyzed=true&limit=30 200 in 26ms
- GET /api/hot-content?platform=all&cuisine=all&city=%E5%85%A8%E5%9B%BD&preferAnalyzed=true&limit=30 200 in 29ms
- GET /api/hot-content?platform=all&cuisine=all&city=%E5%85%A8%E5%9B%BD&preferAnalyzed=true&limit=30 200 in 57ms
- GET /api/hot-content?platform=all&cuisine=all&city=%E5%85%A8%E5%9B%BD&preferAnalyzed=true&limit=30 200 in 30ms
- 鉁?Compiled /_not-found in 719ms (1062 modules)
- 鈿?Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
- 鈿?Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
- 鈿?Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
- GET /_next/static/webpack/1b3c4e97058a6c27.webpack.hot-update.json 404 in 363ms
- GET /_next/static/webpack/1b3c4e97058a6c27.webpack.hot-update.json 404 in 322ms
- GET /_next/static/webpack/1b3c4e97058a6c27.webpack.hot-update.json 404 in 362ms
- GET /operations 200 in 112ms
- GET /operations 200 in 112ms
- GET /operations 200 in 112ms
- GET /api/hot-content?platform=all&cuisine=all&city=%E5%85%A8%E5%9B%BD&preferAnalyzed=true&limit=30 200 in 31ms
- GET /api/hot-content?platform=all&cuisine=all&city=%E5%85%A8%E5%9B%BD&preferAnalyzed=true&limit=30 200 in 54ms
- GET /api/hot-content?platform=all&cuisine=all&city=%E5%85%A8%E5%9B%BD&preferAnalyzed=true&limit=30 200 in 26ms
- GET /api/hot-content?platform=all&cuisine=all&city=%E5%85%A8%E5%9B%BD&preferAnalyzed=true&limit=30 200 in 23ms
- GET /api/hot-content?platform=all&cuisine=all&city=%E5%85%A8%E5%9B%BD&preferAnalyzed=true&limit=30 200 in 41ms
- GET /api/hot-content?platform=all&cuisine=all&city=%E5%85%A8%E5%9B%BD&preferAnalyzed=true&limit=30 200 in 52ms
- GET /sign-in 200 in 57ms
-<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename 'C:
-\Users\29842\Documents\鎸囧\restaurant-saas\.next\cache\webpack\client-development\0.pack.gz_' -> 'C:\Users\29842\Docume
-nts\鎸囧\restaurant-saas\.next\cache\webpack\client-development\0.pack.gz'
- 鉁?Compiled in 427ms (1073 modules)
- GET /sign-in 200 in 94ms
- 鉁?Compiled in 485ms (1041 modules)
- GET /sign-in 200 in 96ms
- 鉁?Compiled in 415ms (1041 modules)
- GET /sign-in 200 in 114ms
- 鉁?Compiled /content in 245ms (465 modules)
- 鉁?Compiled /reviews in 378ms (1060 modules)
- 鉁?Compiled /videos in 347ms (1052 modules)
+ 猕?./src/app/(dashboard)/operations/page.tsx
+Error: 
+  [31mx[0m 'import', and 'export' cannot be used outside of module code
+     ,-[[36;1;4mC:\Users\29842\Documents\鎸囧\restaurant-saas\src\app\(dashboard)\operations\page.tsx[0m:251:1]
+ [2m251[0m | 
+ [2m252[0m | "use client";
+ [2m253[0m | 
+ [2m254[0m | import { useState, useEffect, useMemo } from "react";
+     : [31;1m^^^^^^[0m
+ [2m255[0m | import { UtensilsCrossed } from "lucide-react";
+ [2m256[0m | import { Card, CardContent } from "@/components/ui/card";
+ [2m256[0m | import { classifyMerchant } from "@/lib/agent/classification/merchant-classifier";
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/(dashboard)/operations/page.tsx
+ 猕?./src/app/(dashboard)/operations/page.tsx
+Error: 
+  [31mx[0m 'import', and 'export' cannot be used outside of module code
+     ,-[[36;1;4mC:\Users\29842\Documents\鎸囧\restaurant-saas\src\app\(dashboard)\operations\page.tsx[0m:251:1]
+ [2m251[0m | 
+ [2m252[0m | "use client";
+ [2m253[0m | 
+ [2m254[0m | import { useState, useEffect, useMemo } from "react";
+     : [31;1m^^^^^^[0m
+ [2m255[0m | import { UtensilsCrossed } from "lucide-react";
+ [2m256[0m | import { Card, CardContent } from "@/components/ui/card";
+ [2m256[0m | import { classifyMerchant } from "@/lib/agent/classification/merchant-classifier";
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/(dashboard)/operations/page.tsx
+ 猕?./src/app/(dashboard)/operations/page.tsx
+Error: 
+  [31mx[0m 'import', and 'export' cannot be used outside of module code
+     ,-[[36;1;4mC:\Users\29842\Documents\鎸囧\restaurant-saas\src\app\(dashboard)\operations\page.tsx[0m:251:1]
+ [2m251[0m | 
+ [2m252[0m | "use client";
+ [2m253[0m | 
+ [2m254[0m | import { useState, useEffect, useMemo } from "react";
+     : [31;1m^^^^^^[0m
+ [2m255[0m | import { UtensilsCrossed } from "lucide-react";
+ [2m256[0m | import { Card, CardContent } from "@/components/ui/card";
+ [2m256[0m | import { classifyMerchant } from "@/lib/agent/classification/merchant-classifier";
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/(dashboard)/operations/page.tsx
+ 猕?./src/app/(dashboard)/operations/page.tsx
+Error: 
+  [31mx[0m 'import', and 'export' cannot be used outside of module code
+     ,-[[36;1;4mC:\Users\29842\Documents\鎸囧\restaurant-saas\src\app\(dashboard)\operations\page.tsx[0m:251:1]
+ [2m251[0m | 
+ [2m252[0m | "use client";
+ [2m253[0m | 
+ [2m254[0m | import { useState, useEffect, useMemo } from "react";
+     : [31;1m^^^^^^[0m
+ [2m255[0m | import { UtensilsCrossed } from "lucide-react";
+ [2m256[0m | import { Card, CardContent } from "@/components/ui/card";
+ [2m256[0m | import { classifyMerchant } from "@/lib/agent/classification/merchant-classifier";
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/(dashboard)/operations/page.tsx
+ 鉁?Compiled in 714ms (717 modules)
+ 鉁?Compiled in 365ms (731 modules)
+ 鉁?Compiled in 307ms (731 modules)
+ 鉁?Compiled in 202ms (731 modules)
+ 鉁?Compiled in 276ms (725 modules)
+ 猕?./src/app/(dashboard)/operations/page.tsx
+Error: 
+  [31mx[0m Expected '}', got '<eof>'
+     ,-[[36;1;4mC:\Users\29842\Documents\鎸囧\restaurant-saas\src\app\(dashboard)\operations\page.tsx[0m:106:1]
+ [2m106[0m |   const selectedPlan = useMemo(() => {
+ [2m107[0m |     if (!selectedAccount || !migrated) return null;
+ [2m108[0m |     return generateAccountPlan(selectedAccount, makeMerchantInfo(accounts));
+ [2m109[0m |   }, [selectedAccount, accounts, migrated]);
+     : [31;1m                                           ^[0m
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/(dashboard)/operations/page.tsx
+ 猕?./src/app/(dashboard)/operations/page.tsx
+Error: 
+  [31mx[0m Expected '}', got '<eof>'
+     ,-[[36;1;4mC:\Users\29842\Documents\鎸囧\restaurant-saas\src\app\(dashboard)\operations\page.tsx[0m:154:1]
+ [2m154[0m |       const nextAccounts = accounts.map((a) => removed.accountIds.includes(a.id) ? { ...a, syncGroupId: 
+undefined } : a);
+ [2m155[0m |       setAccounts(nextAccounts); saveAccounts(nextAccounts);
+ [2m156[0m |     }
+ [2m157[0m |   }
+     : [31;1m  ^[0m
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/(dashboard)/operations/page.tsx
+ 鉁?Compiled in 488ms (761 modules)

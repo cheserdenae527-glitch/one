@@ -4,8 +4,9 @@ import { useRouter } from "next/navigation";
 import { AgentMessage, type MessageAttachment } from "./agent-message";
 import { AgentInput, type PendingAttachment } from "./agent-input";
 import { useAgent } from "./agent-context";
+import { AGENTS } from "@/lib/agents";
 import { extractMediaUrl } from "@/lib/media/detect";
-import { Bot, X } from "lucide-react";
+import { Bot, X, ChevronDown } from "lucide-react";
 
 interface Message {
   id: string;
@@ -31,7 +32,9 @@ function AgentLauncher() {
 }
 
 function AgentChat() {
-  const { closeAgent, pendingPrefill, consumePrefill } = useAgent();
+  const [showAgentMenu, setShowAgentMenu] = useState(false);
+  const [showSkillMenu, setShowSkillMenu] = useState(false);
+  const { closeAgent, pendingPrefill, consumePrefill, selectedSkill, setSelectedSkill, selectedAgentId, setSelectedAgentId, availableSkills, setAvailableSkills } = useAgent();
   const [messages, setMessages] = useState<Message[]>(() => {
     if (pendingPrefill) return [];
     return [{ id: "loading", role: "agent", content: "正在分析你的店铺数据..." }];
@@ -41,6 +44,16 @@ function AgentChat() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const prefillConsumed = useRef(false);
   const router = useRouter();
+
+  // Load available skills
+  useEffect(() => {
+    fetch("/api/skills")
+      .then(res => res.json())
+      .then(data => {
+        if (data.skills) setAvailableSkills(data.skills);
+      })
+      .catch(() => {});
+  }, [setAvailableSkills]);
 
   // Daily suggestion on first load
   useEffect(() => {
@@ -87,10 +100,13 @@ function AgentChat() {
     const loadingId = `${Date.now()}-loading`;
     setMessages(prev => [...prev, userMsg, { id: loadingId, role: "agent", content: "正在分析..." }]);
     setSending(true);
+    const initBody: Record<string, any> = { messages: [{ role: "user", content: prefill }] };
+    if (selectedSkill) initBody.skillId = selectedSkill;
+    else if (selectedAgentId) initBody.agentId = selectedAgentId;
     fetch("/api/agent/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ messages: [{ role: "user", content: prefill }] }),
+      body: JSON.stringify(initBody),
     })
       .then(res => res.json())
       .then(data => {
@@ -207,10 +223,13 @@ function AgentChat() {
         succeed(data.response, [{ label: "一键参考到视频脚本", action: "reference_video" }]);
       } else {
         const history = [...messages, userMsg].map(m => ({ role: m.role, content: m.content }));
+        const body: Record<string, any> = { messages: history };
+        if (selectedSkill) body.skillId = selectedSkill;
+        else if (selectedAgentId) body.agentId = selectedAgentId;
         const res = await fetch("/api/agent/chat", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ messages: history }),
+          body: JSON.stringify(body),
         });
         const data = await res.json();
         succeed(data.response);
@@ -248,6 +267,83 @@ function AgentChat() {
         >
           <X className="w-4 h-4" />
         </button>
+      </div>
+
+      {/* Agent 类型 + Skill 选择器 */}
+      <div className="border-b px-3 py-2 shrink-0">
+        <div className="flex items-center gap-2 text-xs">
+          {/* Agent 类型选择 */}
+          <div className="relative">
+            <button
+              onClick={() => { setShowAgentMenu(!showAgentMenu); setShowSkillMenu(false); }}
+              className="flex items-center gap-1 px-2 py-1 rounded-md bg-muted hover:bg-muted/80 text-muted-foreground"
+            >
+              {selectedAgentId
+                ? AGENTS.find(a => a.id === selectedAgentId)?.label || selectedAgentId
+                : "选择类型"}
+              <ChevronDown className="w-3 h-3" />
+            </button>
+            {showAgentMenu && (
+              <div className="absolute top-full left-0 mt-1 w-36 bg-popover border rounded-md shadow-lg z-50 py-1">
+                <button
+                  onClick={() => { setSelectedAgentId(null); setSelectedSkill(null); setShowAgentMenu(false); }}
+                  className="w-full text-left px-3 py-1.5 hover:bg-muted text-muted-foreground"
+                >不限</button>
+                {AGENTS.map(a => (
+                  <button
+                    key={a.id}
+                    onClick={() => {
+                      setSelectedAgentId(a.id);
+                      setSelectedSkill(null);
+                      setShowAgentMenu(false);
+                    }}
+                    className={"w-full text-left px-3 py-1.5 hover:bg-muted " + (selectedAgentId === a.id ? "bg-muted font-medium" : "")}
+                  >{a.label}</button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Skill 选择 */}
+          <div className="relative">
+            <button
+              onClick={() => { setShowSkillMenu(!showSkillMenu); setShowAgentMenu(false); }}
+              className="flex items-center gap-1 px-2 py-1 rounded-md bg-muted hover:bg-muted/80 text-muted-foreground"
+            >
+              {selectedSkill
+                ? availableSkills.find(s => s.id === selectedSkill)?.name || selectedSkill
+                : "选择技能"}
+              <ChevronDown className="w-3 h-3" />
+            </button>
+            {showSkillMenu && (
+              <div className="absolute top-full left-0 mt-1 w-56 bg-popover border rounded-md shadow-lg z-50 py-1 max-h-60 overflow-y-auto">
+                <button
+                  onClick={() => { setSelectedSkill(null); setShowSkillMenu(false); }}
+                  className="w-full text-left px-3 py-1.5 hover:bg-muted text-muted-foreground"
+                >不限</button>
+                {availableSkills.map(s => (
+                  <button
+                    key={s.id}
+                    onClick={() => {
+                      setSelectedSkill(s.id);
+                      setSelectedAgentId(null);
+                      setShowSkillMenu(false);
+                    }}
+                    className={"w-full text-left px-3 py-1.5 hover:bg-muted text-xs " + (selectedSkill === s.id ? "bg-muted font-medium" : "")}
+                    title={s.description}
+                  >{s.name}</button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* 当前状态指示 */}
+          {(selectedAgentId || selectedSkill) && (
+            <span className="text-muted-foreground/60 ml-auto">
+              {selectedAgentId ? AGENTS.find(a=>a.id===selectedAgentId)?.label : availableSkills.find(s=>s.id===selectedSkill)?.name}
+            </span>
+          )}
+        </div>
       </div>
 
       <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-4 min-h-0">

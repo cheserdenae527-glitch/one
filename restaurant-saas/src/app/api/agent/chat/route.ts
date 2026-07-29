@@ -2,13 +2,14 @@ import { NextResponse } from "next/server";
 import { buildAgentContext } from "@/lib/agent";
 import { createToolRegistry } from "@/lib/agent/tools";
 import { buildAgentSystemPrompt } from "@/lib/agent/prompts";
+import { loadSkill, getSkillsForAgent, buildSkillSystemPrompt } from "@/lib/skills";
 import { callDeepSeekWithMessages, callLLM } from "@/lib/ai/client";
 import { hasMediaContent, callDoubaoChat } from "@/lib/ai/media-utils";
 import type { AgentContext } from "@/lib/agent/types";
 
 export async function POST(request: Request) {
   try {
-    const { messages } = await request.json();
+    const { messages, skillId, agentId } = await request.json();
     if (!messages || !Array.isArray(messages) || messages.length === 0) {
       return NextResponse.json({ error: "messages array is required" }, { status: 400 });
     }
@@ -35,7 +36,19 @@ export async function POST(request: Request) {
     }
 
     // Step 3: build system prompt
-    const systemContent = buildAgentSystemPrompt(context, tools);
+    let skillBlock = "";
+    if (skillId) {
+      const skill = await loadSkill(skillId);
+      if (skill) {
+        skillBlock = buildSkillSystemPrompt([skill]);
+      }
+    } else if (agentId) {
+      const skills = await getSkillsForAgent(agentId);
+      if (skills.length > 0) {
+        skillBlock = buildSkillSystemPrompt(skills);
+      }
+    }
+    const systemContent = buildAgentSystemPrompt(context, tools, skillBlock);
 
     // Step 4: build API messages
     const apiMessages: Array<{ role: string; content: string }> = [
